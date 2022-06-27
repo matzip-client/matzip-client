@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 //import App from './App';
 import reportWebVitals from './reportWebVitals';
-import LoginComponent from './LoginComponent/LoginComponent.jsx';
+import FirstComponent from './FirstComponent/FirstComponent.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <LoginComponent />
+    <FirstComponent />
   </React.StrictMode>
 );
 
