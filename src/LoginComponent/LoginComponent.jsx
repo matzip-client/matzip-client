@@ -1,16 +1,41 @@
+import { useState } from 'react';
 import LoginStyles from './LoginComponent.module.css';
 
-function LoginComponent(props) {
+function LoginComponent() {
+  const [account, setAccount] = useState({ id: '', password: '' });
+
+  const onChangeAccount = (e) => {
+    setAccount({
+      ...account,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const LoginAttempt = () => {
+    if (account.id == 'test' && account.password == 'test') {
+      console.log('Happy hacking!!');
+    }
+  };
+
   return (
     <form className={LoginStyles.loginForm}>
-      <input type={LoginStyles.text} placeholder="username" />
-      <input type={LoginStyles.password} placeholder="password" />
-      <button>login</button>
+      <input
+        name="id"
+        className={LoginStyles.text}
+        type="text"
+        placeholder="username"
+        onChange={onChangeAccount}
+      />
+      <input
+        name="password"
+        className={LoginStyles.password}
+        type="password"
+        placeholder="password"
+        onChange={onChangeAccount}
+      />
+      <button onClick={LoginAttempt}>login</button>
       <p className={LoginStyles.message}>
-        Not registered?{' '}
-        <a href="#" onClick={props.SignUpButtonClick}>
-          Create an account
-        </a>
+        Not registered? <a href="/signin">Create an account</a>
       </p>
     </form>
   );

@@ -1,6 +1,6 @@
 import SignInStyles from './SignInComponent.module.css';
 
-function SignInComponent(props) {
+function SignInComponent() {
   return (
     <form className={SignInStyles.registerForm}>
       <input type={SignInStyles.text} placeholder="name" />
@@ -8,10 +8,7 @@ function SignInComponent(props) {
       <input type={SignInStyles.text} placeholder="emailAddress" />
       <button>create</button>
       <p className={SignInStyles.message}>
-        Already registered?{' '}
-        <a href="#" onClick={props.SignUpButtonClick}>
-          Sign In
-        </a>
+        Already registered? <a href="/">Sign In</a>
       </p>
     </form>
   );
