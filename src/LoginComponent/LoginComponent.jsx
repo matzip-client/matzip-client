@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import LoginStyles from './LoginComponent.module.css';
+import { useNavigate } from 'react-router-dom';
 
-function LoginComponent() {
+function LoginComponent({ setUserInfo }) {
   const [account, setAccount] = useState({ id: '', password: '' });
-
+  const navigate = useNavigate();
   const onChangeAccount = (e) => {
     setAccount({
       ...account,
@@ -12,32 +13,45 @@ function LoginComponent() {
   };
 
   const LoginAttempt = () => {
-    if (account.id == 'test' && account.password == 'test') {
-      console.log('Happy hacking!!');
+    /**
+     * 차후 수정 : db 연결해서 검증하는 것으로 치환
+     */
+    console.log(setUserInfo);
+    if (account.id == 'hyujang' && account.password == 'test') {
+      alert('로그인 성공 !');
+      setUserInfo(account);
+      sessionStorage.setItem('isAuthorized', true);
+      navigate('/main');
+      return { account };
+    } else {
+      alert('로그인 실패 !');
+      setAccount({ ...account, id: account.id, password: '' });
     }
   };
 
   return (
-    <form className={LoginStyles.loginForm}>
+    <div className={LoginStyles.loginForm}>
       <input
         name="id"
+        value={account.id}
         className={LoginStyles.text}
         type="text"
-        placeholder="username"
+        placeholder="아이디를 입력해주세요"
         onChange={onChangeAccount}
       />
       <input
         name="password"
+        value={account.password}
         className={LoginStyles.password}
         type="password"
-        placeholder="password"
+        placeholder="비밀번호를 입력해주세요"
         onChange={onChangeAccount}
       />
       <button onClick={LoginAttempt}>login</button>
       <p className={LoginStyles.message}>
-        Not registered? <a href="/signin">Create an account</a>
+        <a href="/signin">회원가입</a>
       </p>
-    </form>
+    </div>
   );
 }
 
