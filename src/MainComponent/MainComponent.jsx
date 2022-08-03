@@ -1,5 +1,3 @@
-//import MainStyles from './MainComponent.module.css';
-
 function MainComponent({ isAuthorized, userInfo }) {
   return (
     <div>

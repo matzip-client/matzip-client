@@ -17,12 +17,12 @@ function App() {
           <div className={IndexStyles.form}>
             <Routes>
               <Route
-                path="/"
+                path="/login"
                 element={<LoginComponent setUserInfo={setUserInfo} isAuthorized={isAuthorized} />}
               />
               <Route path="/signin" element={<SignInComponent />} />
               <Route
-                path="/main"
+                path="/"
                 element={<MainComponent isAuthorized={isAuthorized} userInfo={userInfo} />}
               />
             </Routes>

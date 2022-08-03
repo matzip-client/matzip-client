@@ -21,7 +21,7 @@ function LoginComponent({ setUserInfo }) {
       alert('로그인 성공 !');
       setUserInfo(account);
       sessionStorage.setItem('isAuthorized', true);
-      navigate('/main');
+      navigate('/');
       return { account };
     } else {
       alert('로그인 실패 !');
@@ -30,7 +30,7 @@ function LoginComponent({ setUserInfo }) {
   };
 
   return (
-    <div className={LoginStyles.loginForm}>
+    <form className={LoginStyles.loginForm} onSubmit={LoginAttempt} method="POST">
       <input
         name="id"
         value={account.id}
@@ -47,11 +47,11 @@ function LoginComponent({ setUserInfo }) {
         placeholder="비밀번호를 입력해주세요"
         onChange={onChangeAccount}
       />
-      <button onClick={LoginAttempt}>login</button>
+      <button type="submit">login</button>
       <p className={LoginStyles.message}>
         <a href="/signin">회원가입</a>
       </p>
-    </div>
+    </form>
   );
 }
 
