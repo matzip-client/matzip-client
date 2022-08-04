@@ -16,7 +16,6 @@ function MainComponent({ isAuthorized, userInfo }) {
       ) : (
         <div>
           <dd>{userInfo.id}</dd>
-          <dd>isAuthorized</dd>
         </div>
       )}
     </div>
