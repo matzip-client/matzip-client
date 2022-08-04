@@ -29,6 +29,10 @@ function LoginComponent({ setUserInfo }) {
     }
   };
 
+  const onClickRedirectSignIn = () => {
+    navigate('/signin');
+  };
+
   return (
     <form className={LoginStyles.loginForm} onSubmit={LoginAttempt} method="POST">
       <input
@@ -48,9 +52,7 @@ function LoginComponent({ setUserInfo }) {
         onChange={onChangeAccount}
       />
       <button type="submit">login</button>
-      <p className={LoginStyles.message}>
-        <a href="/signin">회원가입</a>
-      </p>
+      <button onClick={onClickRedirectSignIn}>회원가입</button>
     </form>
   );
 }
