@@ -2,6 +2,7 @@ html {
   box-sizing: border-box;
   --bgColorMenu: #1d1d27;
   --duration: 0.7s;
+  --bgColorItem: #76b852;
   background-color: #8dc36f;
 }
 

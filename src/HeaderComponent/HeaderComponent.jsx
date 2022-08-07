@@ -1,10 +1,10 @@
+import { useState } from 'react';
 import { useRef } from 'react';
 import HeaderStyle from './HeaderComponent.module.css';
 
 function HeaderComponent() {
-  // eslint-disable-next-line no-unused-vars
+  let [activeItemIndex, setActiveItemIndex] = useState(0);
   const body = document.body;
-  // eslint-disable-next-line no-unused-vars
   const bgColorsBody = ['#76b852', '#ff96bd', '#9999fb', '#ffe797', '#cffff1'];
   //   const menu = body.querySelector(`.${HeaderStyle.menu}`);
   const menu = useRef();
@@ -13,56 +13,48 @@ function HeaderComponent() {
   //   const menuBorder = menu.querySelector(`.${HeaderStyle.menu__border}`);
   const menuBorder = useRef();
   //   let activeItem = menu.querySelector(`.${HeaderStyle.active}`);
-  // eslint-disable-next-line no-unused-vars
-  let activeItem = useRef();
+
   const clickItem = (e) => {
     let clickedButtonIndex = -1;
-    // console.log(e);
+
     menuItems.current.forEach((element, index) => {
       if (element == e.target) clickedButtonIndex = index;
     });
     menu.current.style.removeProperty('--timeOut');
 
-    // if (activeItem == e.item) return;
+    if (activeItemIndex == clickedButtonIndex) return;
 
-    // if (activeItem) {
-    //   activeItem.classList.remove('active');
-    // }
+    menuItems.current[activeItemIndex].classList.remove(HeaderStyle.active);
 
-    e.target.classList.add('active');
-    console.log('[debug] : ' + bgColorsBody[clickedButtonIndex]);
+    e.target.classList.add(HeaderStyle.active);
+
     body.style.backgroundColor = bgColorsBody[clickedButtonIndex];
-    // activeItem = e.item;
-    // offsetMenuBorder(activeItem, menuBorder);
+    document.documentElement.style.setProperty('--bgColorItem', bgColorsBody[clickedButtonIndex]);
+    setActiveItemIndex(clickedButtonIndex);
+    offsetMenuBorder(menuItems.current[clickedButtonIndex], menuBorder);
   };
 
-  //   function offsetMenuBorder(element, menuBorder) {
-  //     if (!element.current) return;
-  //     const offsetActiveItem = element.current.getBoundingClientRect();
-  //     const left =
-  //       Math.floor(
-  //         offsetActiveItem.left -
-  //           menu.offsetLeft -
-  //           (menuBorder.offsetWidth - offsetActiveItem.width) / 2
-  //       ) + 'px';
-  //     menuBorder.style.transform = `translate3d(${left}, 0 , 0)`;
-  //   }
+  function offsetMenuBorder(element, menuBorder) {
+    const offsetActiveItem = element.getBoundingClientRect();
+    const left =
+      Math.floor(
+        offsetActiveItem.left -
+          menu.current.offsetLeft -
+          (menuBorder.current.offsetWidth - offsetActiveItem.width) / 2
+      ) + 'px';
+    menuBorder.current.style.transform = `translate3d(${left}, 0 , 0)`;
+  }
 
-  //   offsetMenuBorder(activeItem, menuBorder);
-  //   Object.entries(menuItems).forEach((item, index) => {
-  //     item.addEventListener('click', () => clickItem(item, index));
-  //   });
-
-  //   window.addEventListener('resize', () => {
-  //     offsetMenuBorder(activeItem, menuBorder);
-  //     menu.style.setProperty('--timeOut', 'none');
-  //   });
+  // window.addEventListener('resize', () => {
+  //   offsetMenuBorder(menuItems.current[activeItemIndex], menuBorder);
+  //   menu.style.setProperty('--timeOut', 'none');
+  // });
 
   return (
     <div>
       <menu className={HeaderStyle.menu} ref={menu}>
         <button
-          className={HeaderStyle.menu__item.active}
+          className={`${HeaderStyle.menu__item} ${HeaderStyle.active}`}
           onClick={clickItem}
           ref={(elem) => {
             menuItems.current[0] = elem;
