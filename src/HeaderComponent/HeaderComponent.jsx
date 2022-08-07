@@ -6,13 +6,9 @@ function HeaderComponent() {
   let [activeItemIndex, setActiveItemIndex] = useState(0);
   const body = document.body;
   const bgColorsBody = ['#76b852', '#ff96bd', '#9999fb', '#ffe797', '#cffff1'];
-  //   const menu = body.querySelector(`.${HeaderStyle.menu}`);
   const menu = useRef();
-  //   const menuItems = menu.querySelectorAll(`.${HeaderStyle.menu__item}`);
   const menuItems = useRef([]);
-  //   const menuBorder = menu.querySelector(`.${HeaderStyle.menu__border}`);
   const menuBorder = useRef();
-  //   let activeItem = menu.querySelector(`.${HeaderStyle.active}`);
 
   const clickItem = (e) => {
     let clickedButtonIndex = -1;
@@ -45,13 +41,14 @@ function HeaderComponent() {
     menuBorder.current.style.transform = `translate3d(${left}, 0 , 0)`;
   }
 
-  // window.addEventListener('resize', () => {
-  //   offsetMenuBorder(menuItems.current[activeItemIndex], menuBorder);
-  //   menu.style.setProperty('--timeOut', 'none');
-  // });
+  window.addEventListener('resize', () => {
+    if (menuBorder.current !== undefined)
+      offsetMenuBorder(menuItems.current[activeItemIndex], menuBorder);
+    if (menu.current != undefined) menu.current.style.setProperty('--timeOut', 'none');
+  });
 
   return (
-    <div>
+    <div className={HeaderStyle.headerDiv}>
       <menu className={HeaderStyle.menu} ref={menu}>
         <button
           className={`${HeaderStyle.menu__item} ${HeaderStyle.active}`}
