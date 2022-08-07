@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import LoginStyles from './LoginComponent.module.css';
+
+import BaseStyles from '../Base.module.css';
 import { useNavigate } from 'react-router-dom';
 
 function LoginComponent({ setUserInfo }) {
@@ -34,26 +35,34 @@ function LoginComponent({ setUserInfo }) {
   };
 
   return (
-    <form className={LoginStyles.loginForm} onSubmit={LoginAttempt} method="POST">
-      <input
-        name="id"
-        value={account.id}
-        className={LoginStyles.text}
-        type="text"
-        placeholder="아이디를 입력해주세요"
-        onChange={onChangeAccount}
-      />
-      <input
-        name="password"
-        value={account.password}
-        className={LoginStyles.password}
-        type="password"
-        placeholder="비밀번호를 입력해주세요"
-        onChange={onChangeAccount}
-      />
-      <button type="submit">login</button>
-      <button onClick={onClickRedirectSignIn}>회원가입</button>
-    </form>
+    <div className={BaseStyles.loginPage}>
+      <div className={BaseStyles.form}>
+        <form className={BaseStyles.loginForm} onSubmit={LoginAttempt} method="POST">
+          <input
+            name="id"
+            value={account.id}
+            className={BaseStyles.input}
+            type="text"
+            placeholder="아이디를 입력해주세요"
+            onChange={onChangeAccount}
+          />
+          <input
+            name="password"
+            value={account.password}
+            className={BaseStyles.input}
+            type="password"
+            placeholder="비밀번호를 입력해주세요"
+            onChange={onChangeAccount}
+          />
+          <button className={BaseStyles.loginButton} type="submit">
+            로그인
+          </button>
+          <button className={BaseStyles.loginButton} type="button" onClick={onClickRedirectSignIn}>
+            회원가입
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
 

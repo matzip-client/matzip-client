@@ -1,33 +1,29 @@
 import React, { useState } from 'react';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import IndexStyles from './FirstComponent/FirstComponent.module.css';
 import LoginComponent from './LoginComponent/LoginComponent.jsx';
 import SignInComponent from './SignInComponent/SignInComponent.jsx';
 import MainComponent from './MainComponent/MainComponent.jsx';
-
+import HeaderComponent from './HeaderComponent/HeaderComponent';
 function App() {
   const [userInfo, setUserInfo] = useState(null);
   let isAuthorized = sessionStorage.getItem('isAuthorized');
 
   return (
     <React.StrictMode>
+      <HeaderComponent />
       <BrowserRouter>
-        <div className={IndexStyles.loginPage}>
-          <div className={IndexStyles.form}>
-            <Routes>
-              <Route
-                path="/login"
-                element={<LoginComponent setUserInfo={setUserInfo} isAuthorized={isAuthorized} />}
-              />
-              <Route path="/signin" element={<SignInComponent />} />
-              <Route
-                path="/"
-                element={<MainComponent isAuthorized={isAuthorized} userInfo={userInfo} />}
-              />
-            </Routes>
-          </div>
-        </div>
+        <Routes>
+          <Route
+            path="/login"
+            element={<LoginComponent setUserInfo={setUserInfo} isAuthorized={isAuthorized} />}
+          />
+          <Route path="/signin" element={<SignInComponent />} />
+          <Route
+            path="/"
+            element={<MainComponent isAuthorized={isAuthorized} userInfo={userInfo} />}
+          />
+        </Routes>
       </BrowserRouter>
     </React.StrictMode>
   );
