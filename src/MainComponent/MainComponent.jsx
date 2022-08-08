@@ -1,21 +1,29 @@
+import { useState } from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import HeaderComponent from '../HeaderComponent/HeaderComponent.jsx';
+import MatMapComponent from '../MatMapComponent/MatMapComponent.jsx';
+import MatStoryComponent from '../MatStoryComponent/MatStoryComponent.jsx';
 
 function MainComponent({ isAuthorized, userInfo }) {
+  const [pageNum, setPageNum] = useState(0);
   const navigate = useNavigate();
   useEffect(() => {
-    if (isAuthorized == null) {
+    if (isAuthorized == null || userInfo == null) {
       navigate('/login');
     }
-  }, [isAuthorized, navigate]);
+  }, [isAuthorized, userInfo]);
   return (
     <div>
       <h1>Hi !</h1>
-      {isAuthorized == null ? (
+      {isAuthorized == null || userInfo == null ? (
         <h1>로그인 페이지로 이동합니다.</h1>
       ) : (
         <div>
-          <dd>{userInfo.id}</dd>
+          <HeaderComponent setPageNum={setPageNum} />
+          {pageNum == 0 && <MatMapComponent userInfo={userInfo} />}
+          {pageNum == 1 && <MatStoryComponent userInfo={userInfo} />}
+          <p>{userInfo.id} 님 환영합니다 !</p>
         </div>
       )}
     </div>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRef } from 'react';
 import HeaderStyle from './HeaderComponent.module.css';
 
-function HeaderComponent() {
+function HeaderComponent({ setPageNum }) {
   let [activeItemIndex, setActiveItemIndex] = useState(0);
   const body = document.body;
   const bgColorsBody = ['#76b852', '#ff96bd', '#9999fb', '#ffe797', '#cffff1'];
@@ -14,7 +14,10 @@ function HeaderComponent() {
     let clickedButtonIndex = -1;
 
     menuItems.current.forEach((element, index) => {
-      if (element == e.target) clickedButtonIndex = index;
+      if (element == e.target) {
+        clickedButtonIndex = index;
+        setPageNum(index);
+      }
     });
     menu.current.style.removeProperty('--timeOut');
 
@@ -31,6 +34,7 @@ function HeaderComponent() {
   };
 
   function offsetMenuBorder(element, menuBorder) {
+    if (element == null) return;
     const offsetActiveItem = element.getBoundingClientRect();
     const left =
       Math.floor(

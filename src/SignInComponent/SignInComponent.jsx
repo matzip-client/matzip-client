@@ -2,6 +2,7 @@ import SignInStyles from './SignInComponent.module.css';
 import BaseStyles from '../Base.module.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function SignInComponent() {
   const navigate = useNavigate();
@@ -36,9 +37,6 @@ function SignInComponent() {
             stateObj[name] = '필수 정보입니다.';
           }
           break;
-        /**
-         * 추가 예정 : 비밀번호 정책 검사
-         */
         case 'password':
           if (!value) {
             stateObj[name] = '필수 정보입니다.';
@@ -106,7 +104,21 @@ function SignInComponent() {
     /**
      * 변경 : 백엔드와 연결하여 회원 가입 요청 전송
      */
-    if (validateInput) console.log('회원 가입 요청 전송');
+    if (validateInput) {
+      const x = axios.post(
+        'https://matzip-server.shop/api/v1/users/',
+        {
+          username: input.id,
+          password: input.password,
+        },
+        {
+          headers: {
+            Vary: 'Access-Control-Request-Headers',
+          },
+        }
+      );
+      console.log(x);
+    }
   };
 
   const onClickRedirectLogin = () => {
