@@ -4,9 +4,11 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginComponent from './LoginComponent/LoginComponent.jsx';
 import SignInComponent from './SignInComponent/SignInComponent.jsx';
 import MainComponent from './MainComponent/MainComponent.jsx';
+import AdminComponent from './AdminComponent/AdminComponent.jsx';
 
 function App() {
   const [userInfo, setUserInfo] = useState(null);
+  const [adminCheck, setAdminCheck] = useState(false);
   let isAuthorized = sessionStorage.getItem('isAuthorized');
 
   return (
@@ -15,7 +17,13 @@ function App() {
         <Routes>
           <Route
             path="/login"
-            element={<LoginComponent setUserInfo={setUserInfo} isAuthorized={isAuthorized} />}
+            element={
+              <LoginComponent
+                setUserInfo={setUserInfo}
+                isAuthorized={isAuthorized}
+                setAdminCheck={setAdminCheck}
+              />
+            }
           />
           <Route path="/signin" element={<SignInComponent />} />
           <Route
@@ -30,6 +38,7 @@ function App() {
             path="/matstory"
             element={<MainComponent isAuthorized={isAuthorized} userInfo={userInfo} />}
           />
+          <Route path="/admin42" element={<AdminComponent adminCheck={adminCheck} />} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

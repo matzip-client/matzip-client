@@ -4,7 +4,7 @@ import axios from 'axios';
 import BaseStyles from '../Base.module.css';
 import { useNavigate } from 'react-router-dom';
 
-function LoginComponent({ setUserInfo }) {
+function LoginComponent({ setUserInfo, setAdminCheck }) {
   const [account, setAccount] = useState({ id: '', password: '' });
   const navigate = useNavigate();
   const onChangeAccount = (e) => {
@@ -16,19 +16,12 @@ function LoginComponent({ setUserInfo }) {
 
   const validateLogin = async () => {
     try {
-      const response = await axios.post(
-        'https://matzip-server.shop/api/v1/users/login/',
-        {
-          username: account.id,
-          password: account.password,
-        },
-        {
-          headers: {
-            Vary: 'Access-Control-Request-Headers',
-          },
-        }
-      );
-      return response.status == 200;
+      const response = await axios.post('https://matzip-server.shop/api/v1/users/login/', {
+        username: account.id,
+        password: account.password,
+      });
+      console.log(response.headers);
+      return response.data.role;
     } catch (error) {
       if (error.response) {
         // 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답했습니다.
@@ -50,11 +43,11 @@ function LoginComponent({ setUserInfo }) {
 
   const onSubmitLoginAttempt = async (e) => {
     e.preventDefault();
-    if (await validateLogin()) {
-      alert('로그인 성공 !');
+    const role = await validateLogin();
+    if (role == '[NORMAL]' || role == '[ADMIN]') {
       setUserInfo(account);
       sessionStorage.setItem('isAuthorized', true);
-      navigate('/');
+      role == '[ADMIN]' ? (navigate('/admin42'), setAdminCheck(true)) : navigate('/');
       return { account };
     } else {
       alert('로그인 실패 !');

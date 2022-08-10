@@ -15,7 +15,6 @@ function MainComponent({ isAuthorized, userInfo }) {
   }, [isAuthorized, userInfo]);
   return (
     <div>
-      <h1>Hi !</h1>
       {isAuthorized == null || userInfo == null ? (
         <h1>로그인 페이지로 이동합니다.</h1>
       ) : (
@@ -23,7 +22,6 @@ function MainComponent({ isAuthorized, userInfo }) {
           <HeaderComponent setPageNum={setPageNum} />
           {pageNum == 0 && <MatMapComponent userInfo={userInfo} />}
           {pageNum == 1 && <MatStoryComponent userInfo={userInfo} />}
-          <p>{userInfo.id} 님 환영합니다 !</p>
         </div>
       )}
     </div>
