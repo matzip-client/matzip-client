@@ -72,7 +72,7 @@ function SignInComponent() {
     });
   };
 
-  const onSubmitSignIn = (e) => {
+  const onSubmitSignIn = async (e) => {
     e.preventDefault();
     let validateInput = true;
     const specialRule = /[~!@#$%^&*()_+|<>?:{}]/;
@@ -101,23 +101,22 @@ function SignInComponent() {
     } else if (input.password && input.confirmPassword !== input.password) {
       validateInput = false;
     }
-    /**
-     * 변경 : 백엔드와 연결하여 회원 가입 요청 전송
-     */
     if (validateInput) {
-      const x = axios.post(
-        'https://matzip-server.shop/api/v1/users/',
-        {
-          username: input.id,
-          password: input.password,
-        },
-        {
-          headers: {
-            Vary: 'Access-Control-Request-Headers',
+      try {
+        const x = await axios.post(
+          'https://matzip-server.shop/api/v1/users/',
+          {
+            username: input.id,
+            password: input.password,
           },
-        }
-      );
-      console.log(x);
+          {
+            headers: {},
+          }
+        );
+        x.status == 200 ? navigate('/login') : alert('잠시 후 시도해주세요.');
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
