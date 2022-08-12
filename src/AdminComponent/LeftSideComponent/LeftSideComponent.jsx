@@ -4,7 +4,6 @@ import LeftSideStyles from './LeftSideComponent.module.css';
 function LeftSideComponent({ setRenderComponentName }) {
   const onClickSetRenderComponentName = (e) => {
     e.preventDefault();
-    console.log(e.target.outerText);
     setRenderComponentName(e.target.outerText);
   };
 

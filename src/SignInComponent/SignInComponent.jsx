@@ -22,19 +22,32 @@ function SignInComponent() {
     setInput({ ...input, [name]: value });
   };
 
-  const validateInput = (e) => {
+  // eslint-disable-next-line no-unused-vars
+  const existNameCheck = async (value) => {
+    try {
+      const response = await axios.get(
+        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/users/exists/?username=${value}`
+      );
+      console.log(response.data.exists);
+      return response.data.exists;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const validateInput = async (e) => {
     const { name, value } = e.target;
     const specialRule = /[~!@#$%^&*()_+|<>?:{}]/;
+    let duplicateIdCheckFlag = false;
+    if (name == 'id' && value) duplicateIdCheckFlag = await existNameCheck(value);
     setError((prev) => {
       const stateObj = { ...prev, [name]: '' };
-
       switch (name) {
         case 'id':
-          /**
-           * 추가 예정 : 중복 아이디 검사
-           */
           if (!value) {
             stateObj[name] = '필수 정보입니다.';
+          } else if (value) {
+            if (duplicateIdCheckFlag) stateObj[name] = '중복 ID 입니다.';
           }
           break;
         case 'password':
@@ -104,7 +117,7 @@ function SignInComponent() {
     if (validateInput) {
       try {
         const x = await axios.post(
-          'https://matzip-server.shop/api/v1/users/',
+          `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/users/`,
           {
             username: input.id,
             password: input.password,

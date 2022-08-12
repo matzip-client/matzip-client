@@ -16,11 +16,14 @@ function LoginComponent({ setUserInfo, setAdminCheck }) {
 
   const validateLogin = async () => {
     try {
-      const response = await axios.post('https://matzip-server.shop/api/v1/users/login/', {
-        username: account.id,
-        password: account.password,
-      });
-      console.log(response.headers);
+      const response = await axios.post(
+        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/users/login/`,
+        {
+          username: account.id,
+          password: account.password,
+        }
+      );
+      localStorage.setItem('authToken', response.headers.authorization);
       return response.data.role;
     } catch (error) {
       if (error.response) {
