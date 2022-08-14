@@ -5,10 +5,11 @@ import UsersStyles from './AdminMainUsers.module.css';
 function AdminMainUsers() {
   const [userDatas, serUserDatas] = useState([]);
   const [checkedUserId, setCheckedUserId] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
   /**
    * axios.get : users api를 요청하기 위한 파라미터 [pageSize, pageNumber, withAdmin]
    */
-  const usersArguments = { pageSize: 15, pageNumber: 0, withAdmin: true };
+  const usersArguments = { pageSize: 15, pageNumber: 0, withAdmin: true, isNonLocked: true };
 
   const onClickReloadData = async () => {
     const authToken = localStorage.getItem('authToken');
@@ -75,6 +76,27 @@ function AdminMainUsers() {
     });
   };
 
+  const onChangeSetSearchValue = (e) => {
+    setSearchValue(e.target.value);
+  };
+
+  const onClickAdminUserSearch = async () => {
+    const authToken = localStorage.getItem('authToken');
+    try {
+      const response = await axios.get(
+        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/admin/users/username/?pageSize=${usersArguments.pageSize}&pageNumber=${usersArguments.pageNumber}&username=${searchValue}&isNonLocked=${usersArguments.isNonLocked}`,
+        {
+          headers: {
+            Authorization: authToken,
+          },
+        }
+      );
+      serUserDatas(response.data.content);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <p>어드민 메인 유저 입니다.</p>
@@ -85,8 +107,13 @@ function AdminMainUsers() {
           <option>닉네임</option>
           <option>상태</option>
         </select>
-        <input type="text" placeholder="검색 할 유저 정보" />
-        <button>검색</button>
+        <input
+          onChange={onChangeSetSearchValue}
+          type="text"
+          placeholder="검색 할 유저 정보"
+          value={searchValue}
+        />
+        <button onClick={onClickAdminUserSearch}>검색</button>
         <button onClick={onClickReloadData}>데이터 가져오기</button>
         <button onClick={onClickUserLock}>유저 Lock</button>
         <button onClick={onClickUserUnlock}>유저 Unlock</button>
