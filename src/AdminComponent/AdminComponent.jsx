@@ -11,7 +11,7 @@ function AdminComponent({ adminCheck }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (adminCheck == false) navigate('/login');
+    if (adminCheck != true) navigate('/login');
   }, [adminCheck]);
   return (
     <div>
