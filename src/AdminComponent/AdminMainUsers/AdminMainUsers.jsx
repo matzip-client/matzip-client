@@ -75,7 +75,7 @@ function AdminMainUsers() {
                 <td>{user.id}</td>
                 <td>{user.created_at.slice(0, 10)}</td>
                 <td>{user.username}</td>
-                <td>{user.is_active ? 'T' : 'F'}</td>
+                <td>{user.is_non_locked ? 'T' : 'F'}</td>
               </tr>
             ))}
           </tbody>
