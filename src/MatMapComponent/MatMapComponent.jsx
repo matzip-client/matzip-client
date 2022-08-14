@@ -7,7 +7,7 @@ import { Map, MapMarker } from 'react-kakao-maps-sdk';
 function MatMapComponent({ userInfo }) {
   const { kakao } = window;
   const [map, setMap] = useState();
-  const [info, setInfo] = useState();
+  const [placeInfo, setPlaceInfo] = useState();
   const [markers, setMarkers] = useState([]);
   const [curPos, setCurPos] = useState(true);
   const [searchWord, setSearchWord] = useState('');
@@ -82,11 +82,11 @@ function MatMapComponent({ userInfo }) {
     });
   };
 
-  const onChange = (event) => {
+  const onSearchChange = (event) => {
     setSearchWord(event.target.value);
   };
 
-  const onSubmit = (event) => {
+  const onSearchSubmit = (event) => {
     event.preventDefault();
     setCurPos(false);
     searchPlace();
@@ -99,8 +99,13 @@ function MatMapComponent({ userInfo }) {
   return (
     <div>
       <br />
-      <form onSubmit={onSubmit}>
-        <input type="text" placeholder="검색 키워드 입력" value={searchWord} onChange={onChange} />
+      <form onSubmit={onSearchSubmit}>
+        <input
+          type="text"
+          placeholder="검색 키워드 입력"
+          value={searchWord}
+          onChange={onSearchChange}
+        />
         <button type="submit">검색</button>
       </form>
       <Map // 지도를 표시할 Container
@@ -125,9 +130,9 @@ function MatMapComponent({ userInfo }) {
               <MapMarker
                 key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
                 position={marker.position}
-                onClick={() => setInfo(marker)}
+                onClick={() => setPlaceInfo(marker)}
               >
-                {info && info.content === marker.content && (
+                {placeInfo && placeInfo.content === marker.content && (
                   <div style={{ color: '#000' }}>{marker.content}</div>
                 )}
               </MapMarker>
