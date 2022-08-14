@@ -35,8 +35,44 @@ function AdminMainUsers() {
     }
   };
 
-  const onClickUserDelete = async (e) => {
-    console.log(e);
+  const onClickUserLock = async () => {
+    const authToken = localStorage.getItem('authToken');
+    checkedUserId.forEach(async (elem) => {
+      try {
+        await axios.patch(
+          `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/admin/users/${elem}/lock/?activate=true`,
+          {},
+          {
+            headers: {
+              Authorization: authToken,
+            },
+          }
+        );
+        onClickReloadData();
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
+
+  const onClickUserUnlock = async () => {
+    const authToken = localStorage.getItem('authToken');
+    checkedUserId.forEach(async (elem) => {
+      try {
+        await axios.patch(
+          `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/admin/users/${elem}/lock/?activate=false`,
+          {},
+          {
+            headers: {
+              Authorization: authToken,
+            },
+          }
+        );
+        onClickReloadData();
+      } catch (error) {
+        console.log(error);
+      }
+    });
   };
 
   return (
@@ -52,7 +88,8 @@ function AdminMainUsers() {
         <input type="text" placeholder="검색 할 유저 정보" />
         <button>검색</button>
         <button onClick={onClickReloadData}>데이터 가져오기</button>
-        <button onClick={onClickUserDelete}>유저 삭제</button>
+        <button onClick={onClickUserLock}>유저 Lock</button>
+        <button onClick={onClickUserUnlock}>유저 Unlock</button>
       </div>
 
       <div className={UsersStyles.usersInfoWrapper}>
