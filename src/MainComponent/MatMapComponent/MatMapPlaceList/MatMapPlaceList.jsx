@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import MatMapPlaceListStyle from './MatMapPlaceList.module.css';
 
 function MatMapPlaceList({ markers }) {
   return (
@@ -8,7 +9,11 @@ function MatMapPlaceList({ markers }) {
           {markers.map((place, idx) => (
             <div key={idx}>
               <div>
-                <Link to={`/place/${place.id}`} state={{ data: place }}>
+                <Link
+                  to={`/place/${place.id}`}
+                  state={{ data: place }}
+                  className={MatMapPlaceListStyle.link}
+                >
                   <h2>{place.name}</h2>
                   <div>{place.category_group}</div>
                   <div>{place.category}</div>
