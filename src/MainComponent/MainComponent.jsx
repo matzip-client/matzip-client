@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import HeaderComponent from '../HeaderComponent/HeaderComponent.jsx';
 import MatMapComponent from '../MatMapComponent/MatMapComponent.jsx';
 import MatStoryComponent from '../MatStoryComponent/MatStoryComponent.jsx';
+import UserSearchComponent from './UserSearchComponent/UserSearchComponent.jsx';
 
 function MainComponent({ authToken, setAuthToken }) {
   const [pageNum, setPageNum] = useState(0);
@@ -38,6 +39,7 @@ function MainComponent({ authToken, setAuthToken }) {
           <HeaderComponent setPageNum={setPageNum} />
           {pageNum == 0 && <MatMapComponent />}
           {pageNum == 1 && <MatStoryComponent />}
+          {pageNum == 2 && <UserSearchComponent authToken={authToken} />}
         </div>
       )}
     </div>
