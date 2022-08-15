@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeaderComponent from '../HeaderComponent/HeaderComponent.jsx';
-import MatMapComponent from '../MatMapComponent/MatMapComponent.jsx';
-import MatStoryComponent from '../MatStoryComponent/MatStoryComponent.jsx';
+import MatMapComponent from './MatMapComponent/MatMapComponent.jsx';
+import MatStoryComponent from './MatStoryComponent/MatStoryComponent.jsx';
 import UserSearchComponent from './UserSearchComponent/UserSearchComponent.jsx';
 
 function MainComponent({ authToken, setAuthToken }) {

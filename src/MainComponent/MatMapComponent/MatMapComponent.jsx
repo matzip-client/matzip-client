@@ -2,9 +2,11 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import MatMapInfoWindow from './MatMapInfoWindow/MatMapInfoWindow';
+import MatMapPlaceList from './MatMapPlaceList/MatMapPlaceList';
 
 // eslint-disable-next-line no-unused-vars
-function MatMapComponent({ userInfo }) {
+function MatMapComponent({ authToken }) {
   const { kakao } = window;
   const [map, setMap] = useState();
   const [placeInfo, setPlaceInfo] = useState();
@@ -63,13 +65,18 @@ function MatMapComponent({ userInfo }) {
         const bounds = new kakao.maps.LatLngBounds();
         let markers = [];
         for (var i = 0; i < data.length; i++) {
-          // @ts-ignore
           markers.push({
             position: {
               lat: data[i].y,
               lng: data[i].x,
             },
-            content: data[i].place_name,
+            id: data[i].id,
+            name: data[i].place_name,
+            category_group: data[i].category_group_name,
+            category: data[i].category_name,
+            road_address: data[i].road_address_name,
+            address: data[i].address_name,
+            phone: data[i].phone,
           });
           // @ts-ignore
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
@@ -128,16 +135,19 @@ function MatMapComponent({ userInfo }) {
             )
           : markers.map((marker) => (
               <MapMarker
-                key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
+                key={`marker-${marker.id}-${marker.position.lat},${marker.position.lng}`}
                 position={marker.position}
                 onClick={() => setPlaceInfo(marker)}
               >
-                {placeInfo && placeInfo.content === marker.content && (
-                  <div style={{ color: '#000' }}>{marker.content}</div>
+                {placeInfo && placeInfo.id === marker.id && (
+                  <div style={{ color: '#000' }}>
+                    <MatMapInfoWindow placeInfo={placeInfo} />
+                  </div>
                 )}
               </MapMarker>
             ))}
       </Map>
+      <MatMapPlaceList markers={markers} />
     </div>
   );
 }
