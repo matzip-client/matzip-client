@@ -3,7 +3,7 @@ import { useState } from 'react';
 import UsersStyles from './AdminMainUsers.module.css';
 
 function AdminMainUsers() {
-  const [userDatas, serUserDatas] = useState([]);
+  const [userDatas, setUserDatas] = useState([]);
   const [checkedUserId, setCheckedUserId] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   /**
@@ -22,7 +22,7 @@ function AdminMainUsers() {
           },
         }
       );
-      serUserDatas(response.data.content);
+      setUserDatas(response.data.content);
     } catch (error) {
       console.log(error);
     }
@@ -91,7 +91,7 @@ function AdminMainUsers() {
           },
         }
       );
-      serUserDatas(response.data.content);
+      setUserDatas(response.data.content);
     } catch (error) {
       console.log(error);
     }
