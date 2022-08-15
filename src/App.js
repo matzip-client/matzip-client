@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginComponent from './LoginComponent/LoginComponent.jsx';
 import SignInComponent from './SignInComponent/SignInComponent.jsx';
 import MainComponent from './MainComponent/MainComponent.jsx';
-import AdminComponent from './AdminComponent/AdminComponent.jsx';
+import AdminComponent from './AdminComponent/AdminComponent';
 
 function App() {
   const [authToken, setAuthToken] = useState(null);
