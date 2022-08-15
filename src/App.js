@@ -5,6 +5,7 @@ import LoginComponent from './LoginComponent/LoginComponent.jsx';
 import SignInComponent from './SignInComponent/SignInComponent.jsx';
 import MainComponent from './MainComponent/MainComponent.jsx';
 import AdminComponent from './AdminComponent/AdminComponent.jsx';
+import PlaceHomeComponent from './PlaceHomeComponent/PlaceHomeComponent';
 
 function App() {
   const [authToken, setAuthToken] = useState(null);
@@ -28,6 +29,7 @@ function App() {
             path="/admin42"
             element={<AdminComponent authToken={authToken} setAuthToken={setAuthToken} />}
           />
+          <Route path="/place/:id" element={<PlaceHomeComponent authToken={authToken} />} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>
