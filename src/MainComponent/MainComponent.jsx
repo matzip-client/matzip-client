@@ -5,6 +5,7 @@ import HeaderComponent from '../HeaderComponent/HeaderComponent.jsx';
 import MatMapComponent from '../MatMapComponent/MatMapComponent.jsx';
 import MatStoryComponent from '../MatStoryComponent/MatStoryComponent.jsx';
 import UserSearchComponent from './UserSearchComponent/UserSearchComponent.jsx';
+import UserProfileComponent from './UserProfileComponent/UserProfileComponent.jsx';
 
 function MainComponent({ authToken, setAuthToken }) {
   const [pageNum, setPageNum] = useState(0);
@@ -40,6 +41,7 @@ function MainComponent({ authToken, setAuthToken }) {
           {pageNum == 0 && <MatMapComponent />}
           {pageNum == 1 && <MatStoryComponent />}
           {pageNum == 2 && <UserSearchComponent authToken={authToken} />}
+          {pageNum == 3 && <UserProfileComponent authToken={authToken} />}
         </div>
       )}
     </div>
