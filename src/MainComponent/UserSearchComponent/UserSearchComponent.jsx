@@ -36,7 +36,7 @@ function UserSearchComponent({ authToken }) {
           placeholder="ID 검색"
           onChange={onChangeSearchUserName}
         />
-        <button type="submit">로그인</button>
+        <button type="submit">검색</button>
       </form>
       <div>
         {searchUserResults.map((user) => (
