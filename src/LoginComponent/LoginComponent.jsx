@@ -4,7 +4,8 @@ import axios from 'axios';
 import BaseStyles from '../Base.module.css';
 import { useNavigate } from 'react-router-dom';
 
-function LoginComponent({ setUserInfo, setAdminCheck }) {
+// eslint-disable-next-line no-unused-vars
+function LoginComponent({ setAuthToken }) {
   const [account, setAccount] = useState({ id: '', password: '' });
   const navigate = useNavigate();
   const onChangeAccount = (e) => {
@@ -23,7 +24,8 @@ function LoginComponent({ setUserInfo, setAdminCheck }) {
           password: account.password,
         }
       );
-      localStorage.setItem('authToken', response.headers.authorization);
+      sessionStorage.setItem('authToken', response.headers.authorization);
+      //setAuthToken(response.headers.authorization);
       return response.data.role;
     } catch (error) {
       if (error.response) {
@@ -48,9 +50,7 @@ function LoginComponent({ setUserInfo, setAdminCheck }) {
     e.preventDefault();
     const role = await validateLogin();
     if (role == '[NORMAL]' || role == '[ADMIN]') {
-      setUserInfo(account);
-      sessionStorage.setItem('isAuthorized', true);
-      role == '[ADMIN]' ? (navigate('/admin42'), setAdminCheck(true)) : navigate('/');
+      role == '[ADMIN]' ? navigate('/admin42') : navigate('/');
       return { account };
     } else {
       alert('로그인 실패 !');
