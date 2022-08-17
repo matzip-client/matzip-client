@@ -77,7 +77,7 @@ function MainComponent({ authToken, setAuthToken }) {
       ) : (
         <div>
           <HeaderComponent setPageNum={setPageNum} />
-          {pageNum == 0 && <MatMapComponent />}
+          {pageNum == 0 && <MatMapComponent userInfo={userInfo} />}
           {pageNum == 1 && <MatStoryComponent userInfo={userInfo} />}
           {pageNum == 2 && <UserSearchComponent authToken={authToken} userInfo={userInfo} />}
           {pageNum == 3 && <UserProfileComponent authToken={authToken} userInfo={userInfo} />}
