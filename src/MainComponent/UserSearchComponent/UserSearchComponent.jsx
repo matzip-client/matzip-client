@@ -17,6 +17,10 @@ function UserSearchComponent({ authToken }) {
           },
         }
       );
+      response.data.content.forEach((user) => {
+        console.log(user.username);
+        console.log(user.profile_image_url);
+      });
       SetSearchUserResults(response.data.content);
     } catch (error) {
       console.log(error);
@@ -40,7 +44,12 @@ function UserSearchComponent({ authToken }) {
       </form>
       <div>
         {searchUserResults.map((user) => (
-          <h3 key={user.username}>{user.username}</h3>
+          <div key={user.username}>
+            <span>
+              <img src={user.profile_image_url} />
+            </span>
+            <a>{user.username}</a>
+          </div>
         ))}
       </div>
     </div>
