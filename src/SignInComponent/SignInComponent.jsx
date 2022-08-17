@@ -117,7 +117,7 @@ function SignInComponent() {
     if (validateInput) {
       try {
         const x = await axios.post(
-          `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/users/`,
+          `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/users`,
           {
             username: input.id,
             password: input.password,

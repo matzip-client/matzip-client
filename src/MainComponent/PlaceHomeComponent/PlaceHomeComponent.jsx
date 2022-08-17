@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import ReviewFormComponent from '../ReviewFormComponent/ReviewFormComponent';
 
-function PlaceHome({ userInfo }) {
+function PlaceHome({ authToken }) {
   const [writing, setWriting] = useState(false);
   const [placeName, setPlaceName] = useState('');
   const [placePhone, setPlacePhone] = useState('');
@@ -26,7 +26,7 @@ function PlaceHome({ userInfo }) {
       <div>
         <button onClick={toggleWriting}>리뷰 작성하기</button>
       </div>
-      {writing && <ReviewFormComponent userInfo={userInfo} />}
+      {writing && <ReviewFormComponent authToken={authToken} />}
     </div>
   );
 }

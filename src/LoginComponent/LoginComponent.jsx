@@ -18,7 +18,7 @@ function LoginComponent({ setAuthToken }) {
   const validateLogin = async () => {
     try {
       const response = await axios.post(
-        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/users/login/`,
+        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/users/login`,
         {
           username: account.id,
           password: account.password,

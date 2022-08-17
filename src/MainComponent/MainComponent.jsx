@@ -24,7 +24,7 @@ function MainComponent({ authToken, setAuthToken }) {
   const getUserInfo = async () => {
     try {
       const response = await axios.get(
-        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/users/me/`,
+        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/users/me`,
         {
           headers: {
             Authorization: authToken,
