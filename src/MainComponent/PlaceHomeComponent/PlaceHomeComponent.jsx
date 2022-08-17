@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import ReviewFormComponent from '../ReviewFormComponent/ReviewFormComponent';
 
-// eslint-disable-next-line no-unused-vars
 function PlaceHome({ userInfo }) {
   const [writing, setWriting] = useState(false);
   const [placeName, setPlaceName] = useState('');
