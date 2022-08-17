@@ -80,7 +80,13 @@ function MainComponent({ authToken, setAuthToken }) {
           {pageNum == 0 && <MatMapComponent userInfo={userInfo} />}
           {pageNum == 1 && <MatStoryComponent userInfo={userInfo} />}
           {pageNum == 2 && <UserSearchComponent authToken={authToken} userInfo={userInfo} />}
-          {pageNum == 3 && <UserProfileComponent authToken={authToken} userInfo={userInfo} />}
+          {pageNum == 3 && (
+            <UserProfileComponent
+              authToken={authToken}
+              userInfo={userInfo}
+              setUserInfo={setUserInfo}
+            />
+          )}
         </div>
       )}
     </div>
