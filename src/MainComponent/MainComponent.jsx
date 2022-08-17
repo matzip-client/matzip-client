@@ -23,14 +23,20 @@ function MainComponent({ authToken, setAuthToken }) {
 
   const getUserInfo = async () => {
     try {
-      const response = await axios.get(
-        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/users/me/`,
+      let response = await axios.get(
+        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/users/me`,
         {
           headers: {
             Authorization: authToken,
           },
         }
       );
+      /**
+       * 추후 default img 를 서버에서 받아오는 작업으로 변경 (현재는 링크 하드코딩)
+       */
+      if (response.data.profile_image_url == null)
+        response.data.profile_image_url =
+          'https://matzip-s3-bucket.s3.ap-northeast-2.amazonaws.com/admin-202208171228120260.jpeg';
       setUserInfo({
         ...userInfo,
         userName: response.data.username,
@@ -77,10 +83,16 @@ function MainComponent({ authToken, setAuthToken }) {
       ) : (
         <div>
           <HeaderComponent setPageNum={setPageNum} />
-          {pageNum == 0 && <MatMapComponent />}
+          {pageNum == 0 && <MatMapComponent userInfo={userInfo} />}
           {pageNum == 1 && <MatStoryComponent userInfo={userInfo} />}
           {pageNum == 2 && <UserSearchComponent authToken={authToken} userInfo={userInfo} />}
-          {pageNum == 3 && <UserProfileComponent authToken={authToken} userInfo={userInfo} />}
+          {pageNum == 3 && (
+            <UserProfileComponent
+              authToken={authToken}
+              userInfo={userInfo}
+              setUserInfo={setUserInfo}
+            />
+          )}
         </div>
       )}
     </div>
