@@ -6,7 +6,7 @@ import MatMapInfoWindow from './MatMapInfoWindow/MatMapInfoWindow';
 import MatMapPlaceList from './MatMapPlaceList/MatMapPlaceList';
 
 // eslint-disable-next-line no-unused-vars
-function MatMapComponent({ authToken }) {
+function MatMapComponent({ userInfo }) {
   const { kakao } = window;
   const [map, setMap] = useState();
   const [placeInfo, setPlaceInfo] = useState();
