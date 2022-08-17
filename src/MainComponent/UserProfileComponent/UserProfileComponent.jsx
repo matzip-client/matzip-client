@@ -1,7 +1,12 @@
+import UserProfileStyles from './UserProfileComponent.module.css';
+
 function UserProfileComponent({ userInfo }) {
   return (
     <div>
-      <h2>{userInfo.userName}</h2>
+      <span className={UserProfileStyles.profileSpan}>
+        <img src={userInfo.userProfileImage} className={UserProfileStyles.profileImg} />
+      </span>
+      <a>{userInfo.userName}</a>
     </div>
   );
 }
