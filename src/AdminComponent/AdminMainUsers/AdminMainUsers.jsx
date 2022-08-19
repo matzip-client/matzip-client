@@ -37,11 +37,11 @@ function AdminMainUsers() {
   };
 
   const onClickUserLock = async () => {
-    const authToken = localStorage.getItem('authToken');
+    const authToken = sessionStorage.getItem('authToken');
     checkedUserId.forEach(async (elem) => {
       try {
-        await axios.patch(
-          `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/admin/users/${elem}/lock/?activate=true`,
+        await axios.post(
+          `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/admin/users/${elem}/lock`,
           {},
           {
             headers: {
@@ -57,18 +57,37 @@ function AdminMainUsers() {
   };
 
   const onClickUserUnlock = async () => {
-    const authToken = localStorage.getItem('authToken');
+    const authToken = sessionStorage.getItem('authToken');
     checkedUserId.forEach(async (elem) => {
       try {
-        await axios.patch(
-          `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/admin/users/${elem}/lock/?activate=false`,
-          {},
+        await axios.delete(
+          `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/admin/users/${elem}/lock`,
           {
             headers: {
               Authorization: authToken,
             },
           }
         );
+        onClickReloadData();
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
+
+  const onClickUserDelete = async () => {
+    const authToken = sessionStorage.getItem('authToken');
+    checkedUserId.forEach(async (elem) => {
+      try {
+        await axios.delete(
+          `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/admin/users/${elem}`,
+          {
+            headers: {
+              Authorization: authToken,
+            },
+          }
+        );
+        setCheckedUserId(checkedUserId.filter((item) => item !== elem));
         onClickReloadData();
       } catch (error) {
         console.log(error);
@@ -117,6 +136,7 @@ function AdminMainUsers() {
         <button onClick={onClickReloadData}>데이터 가져오기</button>
         <button onClick={onClickUserLock}>유저 Lock</button>
         <button onClick={onClickUserUnlock}>유저 Unlock</button>
+        <button onClick={onClickUserDelete}>유저 Delete</button>
       </div>
 
       <div className={UsersStyles.usersInfoWrapper}>
