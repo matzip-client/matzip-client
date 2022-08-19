@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+import ProfileDisplayComponent from '../ProfileDisplayComponent/ProfileDisplayComponent';
 
 function UserSearchComponent({ authToken }) {
   const [searchUserResults, SetSearchUserResults] = useState([]);
@@ -17,10 +18,6 @@ function UserSearchComponent({ authToken }) {
           },
         }
       );
-      response.data.content.forEach((user) => {
-        console.log(user.username);
-        console.log(user.profile_image_url);
-      });
       SetSearchUserResults(response.data.content);
     } catch (error) {
       console.log(error);
@@ -30,7 +27,6 @@ function UserSearchComponent({ authToken }) {
   const onChangeSearchUserName = (e) => {
     setSearchUserName(e.target.value);
   };
-
   return (
     <div>
       <form onSubmit={onSubmitSearchUserName}>
@@ -44,12 +40,11 @@ function UserSearchComponent({ authToken }) {
       </form>
       <div>
         {searchUserResults.map((user) => (
-          <div key={user.username}>
-            <span>
-              <img src={user.profile_image_url} />
-            </span>
-            <a>{user.username}</a>
-          </div>
+          <ProfileDisplayComponent
+            key={user.username}
+            userName={user.username}
+            userProfileUrl={user.profile_image_url}
+          />
         ))}
       </div>
     </div>

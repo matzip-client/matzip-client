@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
-import UserProfileStyles from './UserProfileComponent.module.css';
+import ProfileDisplayComponent from '../ProfileDisplayComponent/ProfileDisplayComponent';
 
 function UserProfileComponent({ authToken, userInfo, setUserInfo }) {
   // eslint-disable-next-line no-unused-vars
@@ -57,12 +57,10 @@ function UserProfileComponent({ authToken, userInfo, setUserInfo }) {
 
   return (
     <div>
-      <div>
-        <span className={UserProfileStyles.profileSpan}>
-          <img src={userInfo.userProfileImage} className={UserProfileStyles.profileImg} />
-        </span>
-        <a>{userInfo.userName}</a>
-      </div>
+      <ProfileDisplayComponent
+        userName={userInfo.userName}
+        userProfileUrl={userInfo.profile_image_url}
+      />
       <input type="file" onChange={onChangeImageSelect} />
       {<button onClick={onClickProfileUpload}>업로드</button>}
     </div>
