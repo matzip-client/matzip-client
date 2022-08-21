@@ -3,14 +3,12 @@ import { useState } from 'react';
 import ProfileDisplayComponent from '../ProfileDisplayComponent/ProfileDisplayComponent';
 
 function UserProfileComponent({ authToken, userInfo, setUserInfo }) {
-  // eslint-disable-next-line no-unused-vars
   const [imageFile, setImageFile] = useState();
 
-  // eslint-disable-next-line no-unused-vars
   const uploadImage = async (formData) => {
     try {
-      const response = await axios.post(
-        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/images/`,
+      const response = await axios.patch(
+        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/me`,
         formData,
         {
           headers: {
@@ -19,26 +17,8 @@ function UserProfileComponent({ authToken, userInfo, setUserInfo }) {
           },
         }
       );
-      return response.data.urls[0];
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  const changeProfileImage = async (imgUrl) => {
-    try {
-      await axios.patch(
-        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/users/me`,
-        {
-          profile_image_url: imgUrl,
-        },
-        {
-          headers: {
-            Authorization: authToken,
-          },
-        }
-      );
-      setUserInfo({ ...userInfo, userProfileImage: imgUrl });
+      setUserInfo({ ...userInfo, userProfileImage: response.data.profile_image_url });
     } catch (error) {
       console.log(error);
     }
@@ -46,9 +26,8 @@ function UserProfileComponent({ authToken, userInfo, setUserInfo }) {
 
   const onClickProfileUpload = async () => {
     const formData = new FormData();
-    formData.append('images', imageFile);
-    const imgUrl = await uploadImage(formData);
-    await changeProfileImage(imgUrl);
+    formData.append('profileImage', imageFile);
+    await uploadImage(formData);
   };
 
   const onChangeImageSelect = async (e) => {
@@ -59,10 +38,10 @@ function UserProfileComponent({ authToken, userInfo, setUserInfo }) {
     <div>
       <ProfileDisplayComponent
         userName={userInfo.userName}
-        userProfileUrl={userInfo.profile_image_url}
+        userProfileUrl={userInfo.userProfileImage}
       />
       <input type="file" onChange={onChangeImageSelect} />
-      {<button onClick={onClickProfileUpload}>업로드</button>}
+      <button onClick={onClickProfileUpload}>업로드</button>
     </div>
   );
 }

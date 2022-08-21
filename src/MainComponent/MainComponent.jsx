@@ -23,14 +23,11 @@ function MainComponent({ authToken, setAuthToken }) {
 
   const getUserInfo = async () => {
     try {
-      let response = await axios.get(
-        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/users/me`,
-        {
-          headers: {
-            Authorization: authToken,
-          },
-        }
-      );
+      let response = await axios.get(`https://${process.env.REACT_APP_SERVER_HOST}/api/v1/me`, {
+        headers: {
+          Authorization: authToken,
+        },
+      });
       setUserInfo({
         ...userInfo,
         userName: response.data.username,
