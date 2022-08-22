@@ -9,7 +9,7 @@ function AdminMainUsers() {
   /**
    * axios.get : users api를 요청하기 위한 파라미터 [pageSize, pageNumber, withAdmin]
    */
-  const usersArguments = { pageSize: 15, pageNumber: 0, withAdmin: true, isNonLocked: true };
+  const usersArguments = { pageSize: 15, pageNumber: 0, withAdmin: true, isNonLocked: false };
 
   const onClickReloadData = async () => {
     const authToken = sessionStorage.getItem('authToken');
@@ -100,7 +100,7 @@ function AdminMainUsers() {
   };
 
   const onClickAdminUserSearch = async () => {
-    const authToken = localStorage.getItem('authToken');
+    const authToken = sessionStorage.getItem('authToken');
     try {
       const response = await axios.get(
         `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/admin/users/username/?pageSize=${usersArguments.pageSize}&pageNumber=${usersArguments.pageNumber}&username=${searchValue}&isNonLocked=${usersArguments.isNonLocked}`,
