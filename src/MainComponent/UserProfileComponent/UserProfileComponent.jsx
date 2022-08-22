@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import ProfileDisplayComponent from '../ProfileDisplayComponent/ProfileDisplayComponent';
+import ProfileDetailsCoponent from './ProfileDetailsComponent/ProfileDetailsCoponent';
 
 function UserProfileComponent({ authToken, userInfo, setUserInfo }) {
   const [imageFile, setImageFile] = useState();
@@ -42,6 +43,7 @@ function UserProfileComponent({ authToken, userInfo, setUserInfo }) {
       />
       <input type="file" onChange={onChangeImageSelect} />
       <button onClick={onClickProfileUpload}>업로드</button>
+      <ProfileDetailsCoponent userInfo={userInfo} />
     </div>
   );
 }

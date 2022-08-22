@@ -9,7 +9,14 @@ import UserProfileComponent from './UserProfileComponent/UserProfileComponent.js
 import axios from 'axios';
 
 function MainComponent({ authToken, setAuthToken }) {
-  const [userInfo, setUserInfo] = useState({ userName: '', userProfileImage: '' });
+  const [userInfo, setUserInfo] = useState({
+    userName: '',
+    userProfileImage: '',
+    userStatusMessage: '',
+    userLevel: 0,
+    userFollower: 0,
+    userFollowings: 0,
+  });
   const [pageNum, setPageNum] = useState(0);
   const navigate = useNavigate();
 
@@ -32,6 +39,10 @@ function MainComponent({ authToken, setAuthToken }) {
         ...userInfo,
         userName: response.data.username,
         userProfileImage: response.data.profile_image_url,
+        userStatusMessage: response.data.profile_string,
+        userLevel: response.data.matzip_level,
+        userFollowers: response.data.number_of_followers,
+        userFollowings: response.data.number_of_followings,
       });
     } catch (error) {
       console.log(error);
