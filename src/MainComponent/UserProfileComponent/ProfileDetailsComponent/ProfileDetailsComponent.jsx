@@ -1,4 +1,4 @@
-function ProfileDetailsCoponent({ userInfo }) {
+function ProfileDetailsComponent({ userInfo }) {
   return (
     <div>
       <p>{userInfo.userStatusMessage}</p>
@@ -9,4 +9,4 @@ function ProfileDetailsCoponent({ userInfo }) {
   );
 }
 
-export default ProfileDetailsCoponent;
+export default ProfileDetailsComponent;

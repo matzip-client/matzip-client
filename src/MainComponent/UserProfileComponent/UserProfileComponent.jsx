@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ProfileDisplayComponent from '../ProfileDisplayComponent/ProfileDisplayComponent';
-import ProfileDetailsCoponent from './ProfileDetailsComponent/ProfileDetailsCoponent';
+import ProfileDetailsComponent from './ProfileDetailsComponent/ProfileDetailsComponent';
 
 function UserProfileComponent({ authToken, userInfo, setUserInfo }) {
   const [imageFile, setImageFile] = useState();
+  const navigate = useNavigate();
 
   const uploadImage = async (formData) => {
     try {
@@ -19,7 +21,10 @@ function UserProfileComponent({ authToken, userInfo, setUserInfo }) {
         }
       );
 
-      setUserInfo({ ...userInfo, userProfileImage: response.data.profile_image_url });
+      setUserInfo({
+        ...userInfo,
+        userProfileImage: response.data.profile_image_url,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -35,6 +40,10 @@ function UserProfileComponent({ authToken, userInfo, setUserInfo }) {
     setImageFile(e.target.files[0]);
   };
 
+  const onClickRedirectEdit = () => {
+    navigate(`/edit/${userInfo.userName}`, { state: { ...userInfo, authToken: authToken } });
+  };
+
   return (
     <div>
       <ProfileDisplayComponent
@@ -43,7 +52,8 @@ function UserProfileComponent({ authToken, userInfo, setUserInfo }) {
       />
       <input type="file" onChange={onChangeImageSelect} />
       <button onClick={onClickProfileUpload}>업로드</button>
-      <ProfileDetailsCoponent userInfo={userInfo} />
+      <ProfileDetailsComponent userInfo={userInfo} />
+      <button onClick={onClickRedirectEdit}>수정하기</button>
     </div>
   );
 }
