@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import getReview from '../ReviewComponent/getReview';
 import ReviewFormStyles from './ReviewFormComponent.module.css';
 
-function ReviewFormComponent({ authToken, setReviews }) {
+function ReviewFormComponent({ authToken, setReviews, placeId }) {
   const params = useParams();
   const [rateValue, setRateValue] = useState(3);
   const [imageUrl, setImageUrl] = useState('');
@@ -44,7 +44,7 @@ function ReviewFormComponent({ authToken, setReviews }) {
   const onReviewSubmit = async (event) => {
     event.preventDefault();
     await postReview();
-    getReview({ authToken, setReviews });
+    getReview({ authToken, setReviews, placeId });
     setRateValue(3);
     setImageUrl('');
     setReviewText('');
