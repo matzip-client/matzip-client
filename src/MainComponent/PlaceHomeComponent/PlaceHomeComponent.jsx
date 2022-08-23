@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ReviewFormComponent from '../ReviewFormComponent/ReviewFormComponent';
 
 function PlaceHome({ authToken }) {
@@ -11,6 +11,7 @@ function PlaceHome({ authToken }) {
   const placeInfo = useLocation().state;
 
   const toggleWriting = () => setWriting((prev) => !prev);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setPlaceName(placeInfo.data.name);
@@ -20,6 +21,7 @@ function PlaceHome({ authToken }) {
 
   return (
     <div>
+      <button onClick={() => navigate('/', { replace: true })}>돌아가기</button>
       <h1>{placeName}</h1>
       <h3>{placePhone}</h3>
       <h3>{placeRoadAddress}</h3>
