@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import getReview from '../ReviewComponent/getReview';
 import ReviewFormStyles from './ReviewFormComponent.module.css';
 
-function ReviewFormComponent({ authToken }) {
+function ReviewFormComponent({ authToken, setReviews }) {
   const params = useParams();
   const [rateValue, setRateValue] = useState(3);
   const [imageUrl, setImageUrl] = useState('');
@@ -24,6 +25,7 @@ function ReviewFormComponent({ authToken }) {
     formData.append('location', params.id);
 
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await axios.post(
         `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/reviews`,
         formData,
@@ -34,15 +36,18 @@ function ReviewFormComponent({ authToken }) {
           },
         }
       );
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const onReviewSubmit = (event) => {
+  const onReviewSubmit = async (event) => {
     event.preventDefault();
-    postReview();
+    await postReview();
+    getReview({ authToken, setReviews });
+    setRateValue(3);
+    setImageUrl('');
+    setReviewText('');
   };
 
   return (
