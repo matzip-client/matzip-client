@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import ProfileDisplayComponent from '../MainComponent/ProfileDisplayComponent/ProfileDisplayComponent';
-import ProfileDetailsComponent from '../MainComponent/UserProfileComponent/ProfileDetailsComponent/ProfileDetailsComponent';
 
 function ProfileEditComponent() {
   const { state } = useLocation();
@@ -75,7 +74,7 @@ function ProfileEditComponent() {
         userName={userInfo.userName}
         userProfileUrl={userInfo.userProfileImage}
       />
-      <ProfileDetailsComponent userInfo={userInfo} />
+      <p>{userInfo.userStatusMessage}</p>
       <input type="file" onChange={onChangeImageSelect} />
       <button onClick={onClickProfileUpload}>프로필 이미지 변경</button>
       <input
