@@ -1,32 +1,53 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import getReview from '../ReviewComponent/getReview';
 import ReviewFormStyles from './ReviewFormComponent.module.css';
 
-function ReviewFormComponent({ authToken }) {
+function ReviewFormComponent({ authToken, setReviews, placeId }) {
   const params = useParams();
   const [rateValue, setRateValue] = useState(3);
   const [imageUrl, setImageUrl] = useState('');
   const [reviewText, setReviewText] = useState('');
 
-  const onImageChange = () => {
-    setImageUrl(
-      'https://matzip-s3-bucket.s3.ap-northeast-2.amazonaws.com/foo-202208170725010408.jpeg'
-    );
+  const onImageChange = async (event) => {
+    setImageUrl(event.target.files[0]);
   };
   const onTextChange = ({ target: { value } }) => {
     setReviewText(value);
   };
 
-  const onReviewSubmit = (event) => {
+  const postReview = async () => {
+    const formData = new FormData();
+    formData.append('content', reviewText);
+    formData.append('images', imageUrl);
+    formData.append('rating', rateValue);
+    formData.append('location', params.id);
+
+    try {
+      // eslint-disable-next-line no-unused-vars
+      const response = await axios.post(
+        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/reviews`,
+        formData,
+        {
+          headers: {
+            Authorization: authToken,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onReviewSubmit = async (event) => {
     event.preventDefault();
-    // eslint-disable-next-line no-unused-vars
-    const reviewObj = {
-      authToken: authToken,
-      placeId: params.id,
-      reviewRate: rateValue,
-      reveiwImage: imageUrl,
-      reveiwText: reviewText,
-    };
+    await postReview();
+    getReview({ authToken, setReviews, placeId });
+    setRateValue(3);
+    setImageUrl('');
+    setReviewText('');
   };
 
   return (
