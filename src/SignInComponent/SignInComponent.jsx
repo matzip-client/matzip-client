@@ -26,7 +26,7 @@ function SignInComponent() {
   const existNameCheck = async (value) => {
     try {
       const response = await axios.get(
-        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/users/exists/?username=${value}`
+        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/users/exists?username=${value}`
       );
       console.log(response.data.exists);
       return response.data.exists;
