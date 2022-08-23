@@ -9,13 +9,20 @@ function AdminMainUsers() {
   /**
    * axios.get : users api를 요청하기 위한 파라미터 [pageSize, pageNumber, withAdmin]
    */
-  const usersArguments = { pageSize: 15, pageNumber: 0, withAdmin: true, isNonLocked: false };
+  const usersArguments = {
+    pageSize: 15,
+    pageNumber: 0,
+    withAdmin: true,
+    isNonLocked: false,
+    sortedBy: 'createdAt',
+    ascending: true,
+  };
 
   const onClickReloadData = async () => {
     const authToken = sessionStorage.getItem('authToken');
     try {
       const response = await axios.get(
-        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/admin/users/?pageSize=${usersArguments.pageSize}&pageNumber=${usersArguments.pageNumber}&withAdmin=${usersArguments.withAdmin}`,
+        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/admin/users/?withAdmin=${usersArguments.withAdmin}&pageNumber=${usersArguments.pageNumber}&pageSize=${usersArguments.pageSize}&sortedBy=${usersArguments.sortedBy}&ascending=${usersArguments.ascending}`,
         {
           headers: {
             Authorization: authToken,
