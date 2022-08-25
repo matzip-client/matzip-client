@@ -1,6 +1,8 @@
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import ReviewStyles from './ReviewComponent.module.css';
-
+import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 function ReviewComponent({ reviewObj }) {
   const [liked, setLiked] = useState(false);
   const toggleLiked = () => setLiked((prev) => !prev);
@@ -13,10 +15,10 @@ function ReviewComponent({ reviewObj }) {
         <h4>{reviewObj.content}</h4>
         <img src={reviewObj.image_urls} style={{ width: '200px', height: '200px' }} />
         <br />
-        <i
-          className={liked ? 'fas fa-solid fa-heart' : 'fas fa-regular fa-heart'}
-          onClick={toggleLiked}
-        />
+        <button onClick={toggleLiked}>
+          Like&nbsp;
+          <FontAwesomeIcon icon={liked ? faHeart : faHeartRegular} />
+        </button>
       </div>
     </>
   );

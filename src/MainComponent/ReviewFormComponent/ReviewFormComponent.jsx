@@ -1,3 +1,5 @@
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -57,12 +59,9 @@ function ReviewFormComponent({ authToken, setReviews, placeId }) {
         <div className={ReviewFormStyles.starContainer}>
           {/* //별 아이콘 다섯개 만들기 */}
           {[1, 2, 3, 4, 5].map((el) => (
-            <i
-              //className에 조건문 넣기
-              className={`fas fa-star ${
-                //el만큼 클릭 하거나 || el만큼 호버를 하면 yellowStar 클래스를 실행
-                (rateValue >= el) | (rateValue >= el) && ReviewFormStyles.yellowStar
-              }`}
+            <FontAwesomeIcon
+              icon={faStar}
+              className={`${(rateValue >= el) | (rateValue >= el) && ReviewFormStyles.yellowStar}`}
               key={el} //1,2,3,4,5
               onClick={() => setRateValue(el)}
             />
