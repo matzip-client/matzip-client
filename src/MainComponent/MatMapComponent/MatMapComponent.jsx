@@ -105,26 +105,35 @@ function MatMapComponent({ userInfo }) {
       lat: mouseEvent.latLng.getLat(),
       lng: mouseEvent.latLng.getLng(),
     });
-
-    console.log(clickPosition);
-    const coord = new kakao.maps.LatLng(clickPosition.lat, clickPosition.lng);
-    const callback = function (result, status) {
-      if (status === kakao.maps.services.Status.OK) {
-        const arr = { ...result };
-        setClickAddress(arr[0].address.address_name);
-        console.log(clickAddress);
-      }
-    };
-    geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
-    // eslint-disable-next-line no-unused-vars
-    ps.keywordSearch(clickAddress, (data, status, _pagination) => {
-      if (status === kakao.maps.services.Status.OK) {
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-        // LatLngBounds 객체에 좌표를 추가합니다
-        setClickPlace(data[0].place_name);
-      }
-    });
   };
+
+  useEffect(() => {
+    if (clickPosition.lat != null && clickPosition.lng != null) {
+      console.log(clickPosition);
+      const coord = new kakao.maps.LatLng(clickPosition.lat, clickPosition.lng);
+      const callback = function (result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          const arr = { ...result };
+          setClickAddress(arr[0].address.address_name);
+        }
+      };
+      geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+    }
+  }, [clickPosition]);
+
+  useEffect(() => {
+    if (clickAddress != '') {
+      console.log(clickAddress);
+      // eslint-disable-next-line no-unused-vars
+      ps.keywordSearch(clickAddress, (data, status, _pagination) => {
+        if (status === kakao.maps.services.Status.OK) {
+          // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+          // LatLngBounds 객체에 좌표를 추가합니다
+          setClickPlace(data[0].place_name);
+        }
+      });
+    }
+  }, [clickAddress]);
 
   useEffect(() => {
     currentPosition();
