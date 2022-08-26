@@ -109,7 +109,6 @@ function MatMapComponent({ userInfo }) {
 
   useEffect(() => {
     if (clickPosition.lat != null && clickPosition.lng != null) {
-      console.log(clickPosition);
       const coord = new kakao.maps.LatLng(clickPosition.lat, clickPosition.lng);
       const callback = function (result, status) {
         if (status === kakao.maps.services.Status.OK) {
@@ -118,12 +117,12 @@ function MatMapComponent({ userInfo }) {
         }
       };
       geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+      setClickPlace('');
     }
   }, [clickPosition]);
 
   useEffect(() => {
     if (clickAddress != '') {
-      console.log(clickAddress);
       // eslint-disable-next-line no-unused-vars
       ps.keywordSearch(clickAddress, (data, status, _pagination) => {
         if (status === kakao.maps.services.Status.OK) {
@@ -185,7 +184,7 @@ function MatMapComponent({ userInfo }) {
             ))}
         {clickPosition && (
           <MapMarker position={clickPosition}>
-            <div style={{ color: '#000' }}>{clickPlace}</div>
+            {clickPlace && <div style={{ color: '#000' }}>{clickPlace}</div>}
           </MapMarker>
         )}
       </Map>
