@@ -11,7 +11,7 @@ function MatMapComponent({ userInfo }) {
   const [map, setMap] = useState();
   const [clickPosition, setClickPosition] = useState({ lat: null, lng: null });
   const [clickAddress, setClickAddress] = useState('');
-  const [clickPlace, setClickPlace] = useState('');
+  const [clickPlace, setClickPlace] = useState(null);
   const [placeInfo, setPlaceInfo] = useState();
   const [markers, setMarkers] = useState([]);
   const [curPos, setCurPos] = useState(true);
@@ -97,8 +97,10 @@ function MatMapComponent({ userInfo }) {
   const onSearchSubmit = (event) => {
     event.preventDefault();
     setCurPos(false);
+    setClickPlace(null);
     searchPlace();
   };
+
   const geocoder = new kakao.maps.services.Geocoder();
   const onMouseClick = (_t, mouseEvent) => {
     setClickPosition({
@@ -117,7 +119,8 @@ function MatMapComponent({ userInfo }) {
         }
       };
       geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
-      setClickPlace('');
+      setClickPlace(null);
+      setPlaceInfo(null);
     }
   }, [clickPosition]);
 
@@ -128,7 +131,7 @@ function MatMapComponent({ userInfo }) {
         if (status === kakao.maps.services.Status.OK) {
           // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
           // LatLngBounds 객체에 좌표를 추가합니다
-          setClickPlace(data[0].place_name);
+          setClickPlace(data[0]);
         }
       });
     }
@@ -173,7 +176,13 @@ function MatMapComponent({ userInfo }) {
               <MapMarker
                 key={`marker-${marker.id}-${marker.position.lat},${marker.position.lng}`}
                 position={marker.position}
-                onClick={() => setPlaceInfo(marker)}
+                onClick={() => {
+                  setClickPosition({
+                    lat: null,
+                    lng: null,
+                  });
+                  setPlaceInfo(marker);
+                }}
               >
                 {placeInfo && placeInfo.id === marker.id && (
                   <div style={{ color: '#000' }}>
@@ -184,7 +193,7 @@ function MatMapComponent({ userInfo }) {
             ))}
         {clickPosition && (
           <MapMarker position={clickPosition}>
-            {clickPlace && <div style={{ color: '#000' }}>{clickPlace}</div>}
+            {clickPlace != null && <div style={{ color: '#000' }}>{clickPlace.place_name}</div>}
           </MapMarker>
         )}
       </Map>
