@@ -1,3 +1,4 @@
+/*global kakao*/
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -7,8 +8,10 @@ import MatMapPlaceList from './MatMapPlaceList/MatMapPlaceList';
 
 // eslint-disable-next-line no-unused-vars
 function MatMapComponent({ userInfo }) {
-  const { kakao } = window;
   const [map, setMap] = useState();
+  const [clickPosition, setClickPosition] = useState({ lat: null, lng: null });
+  const [clickAddress, setClickAddress] = useState('');
+  const [clickPlace, setClickPlace] = useState(null);
   const [placeInfo, setPlaceInfo] = useState();
   const [markers, setMarkers] = useState([]);
   const [curPos, setCurPos] = useState(true);
@@ -53,10 +56,8 @@ function MatMapComponent({ userInfo }) {
       }));
     }
   };
-
+  const ps = new kakao.maps.services.Places();
   const searchPlace = () => {
-    const ps = new kakao.maps.services.Places();
-
     // eslint-disable-next-line no-unused-vars
     ps.keywordSearch(searchWord, (data, status, _pagination) => {
       if (status === kakao.maps.services.Status.OK) {
@@ -96,8 +97,45 @@ function MatMapComponent({ userInfo }) {
   const onSearchSubmit = (event) => {
     event.preventDefault();
     setCurPos(false);
+    setClickPlace(null);
     searchPlace();
   };
+
+  const geocoder = new kakao.maps.services.Geocoder();
+  const onMouseClick = (_t, mouseEvent) => {
+    setClickPosition({
+      lat: mouseEvent.latLng.getLat(),
+      lng: mouseEvent.latLng.getLng(),
+    });
+  };
+
+  useEffect(() => {
+    if (clickPosition.lat != null && clickPosition.lng != null) {
+      const coord = new kakao.maps.LatLng(clickPosition.lat, clickPosition.lng);
+      const callback = function (result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          const arr = { ...result };
+          setClickAddress(arr[0].address.address_name);
+        }
+      };
+      geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+      setClickPlace(null);
+      setPlaceInfo(null);
+    }
+  }, [clickPosition]);
+
+  useEffect(() => {
+    if (clickAddress != '') {
+      // eslint-disable-next-line no-unused-vars
+      ps.keywordSearch(clickAddress, (data, status, _pagination) => {
+        if (status === kakao.maps.services.Status.OK) {
+          // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+          // LatLngBounds 객체에 좌표를 추가합니다
+          setClickPlace(data[0]);
+        }
+      });
+    }
+  }, [clickAddress]);
 
   useEffect(() => {
     currentPosition();
@@ -124,6 +162,7 @@ function MatMapComponent({ userInfo }) {
         }}
         level={3} // 지도의 확대 레벨
         onCreate={setMap}
+        onClick={clickPosition ? onMouseClick : null}
       >
         {curPos
           ? !state.isLoading && (
@@ -137,7 +176,13 @@ function MatMapComponent({ userInfo }) {
               <MapMarker
                 key={`marker-${marker.id}-${marker.position.lat},${marker.position.lng}`}
                 position={marker.position}
-                onClick={() => setPlaceInfo(marker)}
+                onClick={() => {
+                  setClickPosition({
+                    lat: null,
+                    lng: null,
+                  });
+                  setPlaceInfo(marker);
+                }}
               >
                 {placeInfo && placeInfo.id === marker.id && (
                   <div style={{ color: '#000' }}>
@@ -146,6 +191,11 @@ function MatMapComponent({ userInfo }) {
                 )}
               </MapMarker>
             ))}
+        {clickPosition && (
+          <MapMarker position={clickPosition}>
+            {clickPlace != null && <div style={{ color: '#000' }}>{clickPlace.place_name}</div>}
+          </MapMarker>
+        )}
       </Map>
       <MatMapPlaceList markers={markers} />
     </div>
