@@ -37,7 +37,12 @@ function PlaceHome({ authToken }) {
       <div>
         {reviews &&
           reviews.map((review) => (
-            <ReviewComponent key={review.id} reviewObj={review} authToken={authToken} />
+            <ReviewComponent
+              key={review.id}
+              reviewObj={review}
+              setReviews={setReviews}
+              authToken={authToken}
+            />
           ))}
       </div>
     </>

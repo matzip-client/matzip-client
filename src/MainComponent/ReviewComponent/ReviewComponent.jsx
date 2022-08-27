@@ -4,7 +4,8 @@ import ReviewStyles from './ReviewComponent.module.css';
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 import axios from 'axios';
 import { useState } from 'react';
-function ReviewComponent({ reviewObj, authToken }) {
+import getReview from './getReview';
+function ReviewComponent({ reviewObj, setReviews, authToken }) {
   const [liked, setLiked] = useState(reviewObj.is_hearted);
   const [likeCnt, setLikeCnt] = useState(0);
 
@@ -45,8 +46,23 @@ function ReviewComponent({ reviewObj, authToken }) {
     }
   };
 
-  const onDeleteClick = () => {
-    confirm('정말로 삭제하시겠습니까?');
+  const onDeleteClick = async () => {
+    if (window.confirm('정말로 삭제하시겠습니까?')) {
+      try {
+        // eslint-disable-next-line no-unused-vars
+        const response = await axios.delete(
+          `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/reviews/${reviewObj.id}`,
+          {
+            headers: {
+              Authorization: authToken,
+            },
+          }
+        );
+        getReview({ authToken, setReviews, placeId: reviewObj.location });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
   return (
     <>
