@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import ProfileDisplayStyles from './ProfileDisplayComponent.module.css';
 
-function ProfileDisplayComponent({ userName, userProfileUrl }) {
+function ProfileDisplayComponent({ userName, userProfileUrl, authToken }) {
   return (
     <div>
       <span className={ProfileDisplayStyles.profileSpan}>
@@ -13,7 +14,9 @@ function ProfileDisplayComponent({ userName, userProfileUrl }) {
           className={ProfileDisplayStyles.profileImg}
         />
       </span>
-      <a>{userName}</a>
+      <Link to={`/profile/${userName}`} state={{ authToken: authToken, userName: userName }}>
+        {userName}
+      </Link>
     </div>
   );
 }

@@ -44,6 +44,7 @@ function UserSearchComponent({ authToken }) {
             key={user.username}
             userName={user.username}
             userProfileUrl={user.profile_image_url}
+            authToken={authToken}
           />
         ))}
       </div>
