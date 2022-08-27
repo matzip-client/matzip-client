@@ -121,7 +121,6 @@ function MatMapComponent({ userInfo }) {
         }
       };
       geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
-      // setClickPlace(null);
       setPlaceInfo(null);
     }
   }, [clickPosition]);
