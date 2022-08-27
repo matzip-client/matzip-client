@@ -6,9 +6,13 @@ import axios from 'axios';
 import { useState } from 'react';
 import getReview from './getReview';
 import { Link } from 'react-router-dom';
+import CommentComponent from './CommentComponent/CommentComponent';
 function ReviewComponent({ reviewObj, setReviews, authToken }) {
   const [liked, setLiked] = useState(reviewObj.is_hearted);
   const [likeCnt, setLikeCnt] = useState(0);
+
+  const [showingComment, setShowingComment] = useState(false);
+  const toggleShowingComment = () => setShowingComment((prev) => !prev);
 
   const putLike = async () => {
     try {
@@ -86,12 +90,15 @@ function ReviewComponent({ reviewObj, setReviews, authToken }) {
           {reviewObj.number_of_hearts + likeCnt}&nbsp;
           <FontAwesomeIcon icon={liked ? faHeart : faHeartRegular} />
         </button>
+        &nbsp;
+        <button onClick={toggleShowingComment}>댓글 보기</button>
         {reviewObj.is_deletable ? (
           <button className={ReviewStyles.delete} onClick={onDeleteClick}>
             Delete&nbsp;
             <FontAwesomeIcon icon={faTrashCan} />
           </button>
         ) : null}
+        {showingComment && <CommentComponent />}
       </div>
     </>
   );
