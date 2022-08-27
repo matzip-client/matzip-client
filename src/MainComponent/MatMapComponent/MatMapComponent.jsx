@@ -103,6 +103,8 @@ function MatMapComponent({ userInfo }) {
 
   const geocoder = new kakao.maps.services.Geocoder();
   const onMouseClick = (_t, mouseEvent) => {
+    setClickAddress('');
+    setClickPlace(null);
     setClickPosition({
       lat: mouseEvent.latLng.getLat(),
       lng: mouseEvent.latLng.getLng(),
@@ -119,7 +121,6 @@ function MatMapComponent({ userInfo }) {
         }
       };
       geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
-      setClickPlace(null);
       setPlaceInfo(null);
     }
   }, [clickPosition]);
@@ -162,7 +163,7 @@ function MatMapComponent({ userInfo }) {
         }}
         level={3} // 지도의 확대 레벨
         onCreate={setMap}
-        onClick={clickPosition ? onMouseClick : null}
+        onClick={clickPosition != null ? onMouseClick : null}
       >
         {curPos
           ? !state.isLoading && (
