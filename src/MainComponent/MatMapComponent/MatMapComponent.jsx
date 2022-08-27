@@ -103,6 +103,8 @@ function MatMapComponent({ userInfo }) {
 
   const geocoder = new kakao.maps.services.Geocoder();
   const onMouseClick = (_t, mouseEvent) => {
+    setClickAddress('');
+    setClickPlace(null);
     setClickPosition({
       lat: mouseEvent.latLng.getLat(),
       lng: mouseEvent.latLng.getLng(),
@@ -119,7 +121,7 @@ function MatMapComponent({ userInfo }) {
         }
       };
       geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
-      setClickPlace(null);
+      // setClickPlace(null);
       setPlaceInfo(null);
     }
   }, [clickPosition]);
