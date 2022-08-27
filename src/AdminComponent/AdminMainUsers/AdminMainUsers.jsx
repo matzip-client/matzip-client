@@ -86,7 +86,7 @@ function AdminMainUsers() {
     const authToken = sessionStorage.getItem('authToken');
     checkedUserId.forEach(async (elem) => {
       try {
-        await axios.delete(
+        const response = await axios.get(
           `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/admin/users/${elem}`,
           {
             headers: {
@@ -94,8 +94,22 @@ function AdminMainUsers() {
             },
           }
         );
-        setCheckedUserId(checkedUserId.filter((item) => item !== elem));
-        onClickReloadData();
+        if (
+          confirm(
+            `userNumber : ${elem}\nuserName : ${response.data.username}\n정말 삭제하시겠습니까 ?`
+          )
+        ) {
+          await axios.delete(
+            `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/admin/users/${elem}`,
+            {
+              headers: {
+                Authorization: authToken,
+              },
+            }
+          );
+          setCheckedUserId((prev) => prev.filter((item) => item !== elem));
+          onClickReloadData();
+        }
       } catch (error) {
         console.log(error);
       }
