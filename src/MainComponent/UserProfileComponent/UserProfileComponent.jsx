@@ -14,6 +14,7 @@ function UserProfileComponent({ authToken, userInfo }) {
       <ProfileDisplayComponent
         userName={userInfo.userName}
         userProfileUrl={userInfo.userProfileImage}
+        authToken={authToken}
       />
       <ProfileDetailsComponent userInfo={userInfo} />
       <button onClick={onClickRedirectEdit}>수정하기</button>
