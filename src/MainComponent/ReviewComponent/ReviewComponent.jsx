@@ -5,6 +5,7 @@ import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
 import axios from 'axios';
 import { useState } from 'react';
 import getReview from './getReview';
+import { Link } from 'react-router-dom';
 function ReviewComponent({ reviewObj, setReviews, authToken }) {
   const [liked, setLiked] = useState(reviewObj.is_hearted);
   const [likeCnt, setLikeCnt] = useState(0);
@@ -67,7 +68,15 @@ function ReviewComponent({ reviewObj, setReviews, authToken }) {
   return (
     <>
       <div className={ReviewStyles.card}>
-        <h3>{reviewObj.user.username}</h3>
+        <h3>
+          <Link
+            to={`/profile/${reviewObj.user.username}`}
+            state={{ authToken: authToken, userName: reviewObj.user.username }}
+            className={ReviewStyles.link}
+          >
+            {reviewObj.user.username}
+          </Link>
+        </h3>
         <h4>{reviewObj.rating}점</h4>
         <h4>{reviewObj.content}</h4>
         <img src={reviewObj.image_urls} style={{ width: '200px' }} />

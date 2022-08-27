@@ -164,7 +164,7 @@ function MatMapComponent({ userInfo }) {
         }}
         level={3} // 지도의 확대 레벨
         onCreate={setMap}
-        onClick={clickPosition ? onMouseClick : null}
+        onClick={clickPosition != null ? onMouseClick : null}
       >
         {curPos
           ? !state.isLoading && (
