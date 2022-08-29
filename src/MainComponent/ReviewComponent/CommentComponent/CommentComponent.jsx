@@ -1,18 +1,69 @@
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import CommentStyles from './CommentComponent.module.css';
-function CommentComponent() {
+import CommentDetailComponent from './CommentDetailComponent/CommentDetailComponent';
+import getComment from './getComment';
+function CommentComponent({ authToken, reviewId }) {
+  const [commentText, setCommentText] = useState('');
+  const [comments, setComments] = useState([]);
+
+  const onCommentChange = ({ target: { value } }) => {
+    setCommentText(value);
+  };
+
+  const postComment = async () => {
+    try {
+      const response = await axios.post(
+        `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/comments`,
+        {
+          review_id: reviewId,
+          content: commentText,
+        },
+        {
+          headers: {
+            Authorization: authToken,
+          },
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onCommentSubmit = async (event) => {
+    event.preventDefault();
+    await postComment();
+    setCommentText('');
+  };
+
+  useEffect(() => {
+    getComment({ authToken, setComments, reviewId });
+  }, []);
+
   return (
     <>
       <div className={CommentStyles.box}>
-        <form>
-          <input type="text" placeholder="댓글을 작성해 주세요 :D" />
+        <form onSubmit={onCommentSubmit}>
+          <input
+            type="text"
+            placeholder="댓글을 작성해 주세요 :D"
+            value={commentText}
+            onChange={onCommentChange}
+          />
           <button type="submit">
             <FontAwesomeIcon icon={faPaperPlane} />
           </button>
         </form>
-        <h4>yewolee : 고양이당</h4>
-        <h4>hyujang : 귀엽당</h4>
+        <div>
+          {comments &&
+            comments.map((comment) => (
+              <CommentDetailComponent key={comment.id} commentObj={comment} />
+            ))}
+        </div>
       </div>
     </>
   );

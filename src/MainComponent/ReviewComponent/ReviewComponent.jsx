@@ -98,7 +98,7 @@ function ReviewComponent({ reviewObj, setReviews, authToken }) {
             <FontAwesomeIcon icon={faTrashCan} />
           </button>
         ) : null}
-        {showingComment && <CommentComponent />}
+        {showingComment && <CommentComponent authToken={authToken} reviewId={reviewObj.id} />}
       </div>
     </>
   );
