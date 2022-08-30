@@ -1,6 +1,29 @@
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
+import getComment from '../getComment';
 import CommentDetailStyles from './CommentDetailComponent.module.css';
 
-function CommentDetailComponent({ commentObj }) {
+function CommentDetailComponent({ authToken, setComments, commentObj }) {
+  const onDeleteClick = async () => {
+    if (window.confirm('정말로 삭제하시겠습니까?')) {
+      try {
+        // eslint-disable-next-line no-unused-vars
+        const response = await axios.delete(
+          `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/comments/${commentObj.id}`,
+          {
+            headers: {
+              Authorization: authToken,
+            },
+          }
+        );
+        getComment({ authToken, setComments, reviewId: commentObj.review_id });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   return (
     <>
       <div className={CommentDetailStyles.commentBox}>
@@ -12,8 +35,17 @@ function CommentDetailComponent({ commentObj }) {
           }
           className={CommentDetailStyles.profileImg}
         />
-        <h4 className={CommentDetailStyles.userName}>{commentObj.user.username}</h4>
-        <p className={CommentDetailStyles.content}>{commentObj.content}</p>
+        <div>
+          <h4 className={CommentDetailStyles.userName}>{commentObj.user.username}</h4>
+          <p className={CommentDetailStyles.content}>{commentObj.content}</p>
+        </div>
+        <div className={CommentDetailStyles.delete}>
+          {commentObj.deletable ? (
+            <button onClick={onDeleteClick}>
+              <FontAwesomeIcon icon={faXmark} />
+            </button>
+          ) : null}
+        </div>
       </div>
     </>
   );

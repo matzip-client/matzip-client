@@ -16,6 +16,7 @@ function CommentComponent({ authToken, reviewId }) {
 
   const postComment = async () => {
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await axios.post(
         `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/comments`,
         {
@@ -28,7 +29,6 @@ function CommentComponent({ authToken, reviewId }) {
           },
         }
       );
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -62,7 +62,12 @@ function CommentComponent({ authToken, reviewId }) {
         <div>
           {comments &&
             comments.map((comment) => (
-              <CommentDetailComponent key={comment.id} commentObj={comment} />
+              <CommentDetailComponent
+                key={comment.id}
+                authToken={authToken}
+                setComments={setComments}
+                commentObj={comment}
+              />
             ))}
         </div>
       </div>
