@@ -1,4 +1,4 @@
-import { faHeart, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faStar, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReviewStyles from './ReviewComponent.module.css';
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
@@ -72,18 +72,39 @@ function ReviewComponent({ reviewObj, setReviews, authToken }) {
   return (
     <>
       <div className={ReviewStyles.card}>
-        <h3>
+        <div>
           <Link
             to={`/profile/${reviewObj.user.username}`}
             state={{ authToken: authToken, userName: reviewObj.user.username }}
             className={ReviewStyles.link}
           >
-            {reviewObj.user.username}
+            <img
+              src={
+                reviewObj.user.profile_image_url == null
+                  ? 'https://matzip-s3-bucket.s3.ap-northeast-2.amazonaws.com/admin-202208171228120260.jpeg'
+                  : reviewObj.user.profile_image_url
+              }
+              className={ReviewStyles.profileImg}
+            />
+            <h3 className={ReviewStyles.userName}>{reviewObj.user.username}</h3>
           </Link>
-        </h3>
-        <h4>{reviewObj.rating}점</h4>
+        </div>
+        <br />
+        <div>
+          {[1, 2, 3, 4, 5].map((el) => (
+            <FontAwesomeIcon
+              icon={faStar}
+              className={`${
+                (reviewObj.rating >= el) | (reviewObj.rating >= el)
+                  ? ReviewStyles.yellowStar
+                  : ReviewStyles.grayStar
+              }`}
+              key={el} //1,2,3,4,5
+            />
+          ))}
+        </div>
         <h4>{reviewObj.content}</h4>
-        <img src={reviewObj.image_urls} style={{ width: '200px' }} />
+        <img src={reviewObj.image_urls} className={ReviewStyles.reviewImg} />
         <br />
         <button onClick={liked ? delLike : putLike}>
           Like&nbsp;

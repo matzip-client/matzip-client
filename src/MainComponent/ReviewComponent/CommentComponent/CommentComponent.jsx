@@ -38,6 +38,7 @@ function CommentComponent({ authToken, reviewId }) {
     event.preventDefault();
     await postComment();
     setCommentText('');
+    getComment({ authToken, setComments, reviewId });
   };
 
   useEffect(() => {
