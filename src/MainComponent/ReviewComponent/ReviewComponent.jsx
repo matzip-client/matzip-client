@@ -13,7 +13,6 @@ function ReviewComponent({ reviewObj, setReviews, authToken }) {
 
   const [showingComment, setShowingComment] = useState(false);
   const toggleShowingComment = () => setShowingComment((prev) => !prev);
-
   const putLike = async () => {
     try {
       // eslint-disable-next-line no-unused-vars
