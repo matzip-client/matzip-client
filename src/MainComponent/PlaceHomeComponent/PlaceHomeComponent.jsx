@@ -49,6 +49,7 @@ function PlaceHome({ authToken }) {
             <ReviewComponent
               key={review.id}
               reviewObj={review}
+              commentObj={review.comments}
               setReviews={setReviews}
               authToken={authToken}
             />

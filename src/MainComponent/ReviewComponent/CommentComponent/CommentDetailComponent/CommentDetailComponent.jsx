@@ -2,10 +2,10 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import getComment from '../getComment';
+import getReview from '../../getReview';
 import CommentDetailStyles from './CommentDetailComponent.module.css';
 
-function CommentDetailComponent({ authToken, setComments, commentObj }) {
+function CommentDetailComponent({ authToken, setReviews, commentObj, placeId }) {
   const onDeleteClick = async () => {
     if (window.confirm('정말로 삭제하시겠습니까?')) {
       try {
@@ -18,7 +18,7 @@ function CommentDetailComponent({ authToken, setComments, commentObj }) {
             },
           }
         );
-        getComment({ authToken, setComments, reviewId: commentObj.review_id });
+        getReview({ authToken, setReviews, placeId });
       } catch (error) {
         console.log(error);
       }

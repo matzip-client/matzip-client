@@ -7,7 +7,7 @@ import { useState } from 'react';
 import getReview from './getReview';
 import { Link } from 'react-router-dom';
 import CommentComponent from './CommentComponent/CommentComponent';
-function ReviewComponent({ reviewObj, setReviews, authToken }) {
+function ReviewComponent({ reviewObj, commentObj, setReviews, authToken }) {
   const [liked, setLiked] = useState(reviewObj.is_hearted);
   const [likeCnt, setLikeCnt] = useState(reviewObj.number_of_hearts);
 
@@ -116,7 +116,15 @@ function ReviewComponent({ reviewObj, setReviews, authToken }) {
             <FontAwesomeIcon icon={faTrashCan} />
           </button>
         ) : null}
-        {showingComment && <CommentComponent authToken={authToken} reviewId={reviewObj.id} />}
+        {showingComment && (
+          <CommentComponent
+            authToken={authToken}
+            setReviews={setReviews}
+            reviewId={reviewObj.id}
+            commentObj={commentObj}
+            placeId={reviewObj.location}
+          />
+        )}
       </div>
     </>
   );
