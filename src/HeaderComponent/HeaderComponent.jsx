@@ -50,7 +50,9 @@ function HeaderComponent({ setPageNum }) {
       offsetMenuBorder(menuItems.current[activeItemIndex], menuBorder);
     if (menu.current != undefined) menu.current.style.setProperty('--timeOut', 'none');
   });
+
   offsetMenuBorder(menuItems.current[activeItemIndex], menuBorder);
+
   return (
     <div className={HeaderStyle.headerDiv}>
       <menu className={HeaderStyle.menu} ref={menu}>
