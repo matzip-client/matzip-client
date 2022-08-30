@@ -1,3 +1,5 @@
+import { faLocationDot, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import getReview from '../ReviewComponent/getReview';
@@ -25,8 +27,15 @@ function PlaceHome({ authToken }) {
       <div>
         <button onClick={() => navigate('/', { replace: true })}>돌아가기</button>
         <h1>{placeName}</h1>
-        <h3>{placePhone}</h3>
-        <h3>{placeRoadAddress}</h3>
+        <h3>
+          <FontAwesomeIcon icon={faPhone} />
+          &nbsp;&nbsp;
+          {placePhone}
+        </h3>
+        <h3>
+          <FontAwesomeIcon icon={faLocationDot} />
+          &nbsp;&nbsp;{placeRoadAddress}
+        </h3>
         <div>
           <button onClick={toggleWriting}>리뷰 작성하기</button>
         </div>
@@ -40,6 +49,7 @@ function PlaceHome({ authToken }) {
             <ReviewComponent
               key={review.id}
               reviewObj={review}
+              commentObj={review.comments}
               setReviews={setReviews}
               authToken={authToken}
             />

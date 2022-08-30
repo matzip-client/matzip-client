@@ -3,19 +3,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import getReview from '../getReview';
 import CommentStyles from './CommentComponent.module.css';
 import CommentDetailComponent from './CommentDetailComponent/CommentDetailComponent';
-import getComment from './getComment';
-function CommentComponent({ authToken, reviewId }) {
+
+function CommentComponent({ authToken, setReviews, reviewId, commentObj, placeId }) {
   const [commentText, setCommentText] = useState('');
-  const [comments, setComments] = useState([]);
 
   const onCommentChange = ({ target: { value } }) => {
     setCommentText(value);
   };
-
   const postComment = async () => {
     try {
+      // eslint-disable-next-line no-unused-vars
       const response = await axios.post(
         `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/comments`,
         {
@@ -28,7 +28,7 @@ function CommentComponent({ authToken, reviewId }) {
           },
         }
       );
-      console.log(response);
+      getReview({ authToken, setReviews, placeId });
     } catch (error) {
       console.log(error);
     }
@@ -38,11 +38,10 @@ function CommentComponent({ authToken, reviewId }) {
     event.preventDefault();
     await postComment();
     setCommentText('');
-    getComment({ authToken, setComments, reviewId });
   };
 
   useEffect(() => {
-    getComment({ authToken, setComments, reviewId });
+    getReview({ authToken, setReviews, placeId });
   }, []);
 
   return (
@@ -60,9 +59,15 @@ function CommentComponent({ authToken, reviewId }) {
           </button>
         </form>
         <div>
-          {comments &&
-            comments.map((comment) => (
-              <CommentDetailComponent key={comment.id} commentObj={comment} />
+          {commentObj &&
+            commentObj.map((comment) => (
+              <CommentDetailComponent
+                key={comment.id}
+                authToken={authToken}
+                setReviews={setReviews}
+                commentObj={comment}
+                placeId={placeId}
+              />
             ))}
         </div>
       </div>

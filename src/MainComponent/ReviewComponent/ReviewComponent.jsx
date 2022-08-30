@@ -7,16 +7,14 @@ import { useState } from 'react';
 import getReview from './getReview';
 import { Link } from 'react-router-dom';
 import CommentComponent from './CommentComponent/CommentComponent';
-function ReviewComponent({ reviewObj, setReviews, authToken }) {
+function ReviewComponent({ reviewObj, commentObj, setReviews, authToken }) {
   const [liked, setLiked] = useState(reviewObj.is_hearted);
-  const [likeCnt, setLikeCnt] = useState(0);
+  const [likeCnt, setLikeCnt] = useState(reviewObj.number_of_hearts);
 
   const [showingComment, setShowingComment] = useState(false);
   const toggleShowingComment = () => setShowingComment((prev) => !prev);
-
   const putLike = async () => {
     try {
-      // eslint-disable-next-line no-unused-vars
       const response = await axios.put(
         `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/me/hearts/${reviewObj.id}`,
         {},
@@ -27,7 +25,7 @@ function ReviewComponent({ reviewObj, setReviews, authToken }) {
         }
       );
       setLiked((prev) => !prev);
-      setLikeCnt(1);
+      setLikeCnt(response.data.number_of_hearts);
     } catch (error) {
       console.log(error);
     }
@@ -35,7 +33,6 @@ function ReviewComponent({ reviewObj, setReviews, authToken }) {
 
   const delLike = async () => {
     try {
-      // eslint-disable-next-line no-unused-vars
       const response = await axios.delete(
         `https://${process.env.REACT_APP_SERVER_HOST}/api/v1/me/hearts/${reviewObj.id}`,
         {
@@ -45,7 +42,7 @@ function ReviewComponent({ reviewObj, setReviews, authToken }) {
         }
       );
       setLiked((prev) => !prev);
-      setLikeCnt(-1);
+      setLikeCnt(response.data.number_of_hearts);
     } catch (error) {
       console.log(error);
     }
@@ -108,7 +105,7 @@ function ReviewComponent({ reviewObj, setReviews, authToken }) {
         <br />
         <button onClick={liked ? delLike : putLike}>
           Like&nbsp;
-          {reviewObj.number_of_hearts + likeCnt}&nbsp;
+          {likeCnt}&nbsp;
           <FontAwesomeIcon icon={liked ? faHeart : faHeartRegular} />
         </button>
         &nbsp;
@@ -119,7 +116,15 @@ function ReviewComponent({ reviewObj, setReviews, authToken }) {
             <FontAwesomeIcon icon={faTrashCan} />
           </button>
         ) : null}
-        {showingComment && <CommentComponent authToken={authToken} reviewId={reviewObj.id} />}
+        {showingComment && (
+          <CommentComponent
+            authToken={authToken}
+            setReviews={setReviews}
+            reviewId={reviewObj.id}
+            commentObj={commentObj}
+            placeId={reviewObj.location}
+          />
+        )}
       </div>
     </>
   );
