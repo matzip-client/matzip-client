@@ -14,7 +14,6 @@ html *::after {
 body {
   margin: 0;
   display: flex;
-  margin-top: 40px;
   /* height: 100vh;
   overflow: hidden; */
   align-items: center;
@@ -120,6 +119,6 @@ body {
 }
 
 .headerDiv {
-  margin-top: 10px;
+  margin-top: 50px;
   width: 100vw;
 }
