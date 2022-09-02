@@ -12,6 +12,14 @@ import ReviewDetailComponent from './ReviewDetailComponent/ReviewDetailComponent
 
 function App() {
   const [authToken, setAuthToken] = useState(null);
+  const [userInfo, setUserInfo] = useState({
+    userName: '',
+    userProfileImage: '',
+    userStatusMessage: '',
+    userLevel: 0,
+    userFollower: 0,
+    userFollowings: 0,
+  });
 
   return (
     <React.StrictMode>
@@ -24,7 +32,14 @@ function App() {
           <Route path="/signin" element={<SignInComponent />} />
           <Route
             path="/"
-            element={<MainComponent authToken={authToken} setAuthToken={setAuthToken} />}
+            element={
+              <MainComponent
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+                authToken={authToken}
+                setAuthToken={setAuthToken}
+              />
+            }
           />
           <Route path="/matmap" element={<MainComponent authToken={authToken} />} />
           <Route path="/matstory" element={<MainComponent authToken={authToken} />} />
@@ -32,7 +47,17 @@ function App() {
             path="/admin42"
             element={<AdminComponent authToken={authToken} setAuthToken={setAuthToken} />}
           />
-          <Route path="/place/:id" element={<PlaceHomeComponent authToken={authToken} />} />
+          <Route
+            path="/place/:id"
+            element={
+              <PlaceHomeComponent
+                authToken={authToken}
+                setAuthToken={setAuthToken}
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+              />
+            }
+          />
           <Route path="/edit/:userName" element={<ProfileEditComponent authToken={authToken} />} />
           <Route path="/profile/:userName" element={<OtherUserComponent authToken={authToken} />} />
           <Route
