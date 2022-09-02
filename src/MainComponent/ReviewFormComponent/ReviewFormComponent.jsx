@@ -46,7 +46,7 @@ function ReviewFormComponent({ authToken, setReviews, placeId }) {
   const onReviewSubmit = async (event) => {
     event.preventDefault();
     await postReview();
-    getReview({ authToken, setReviews, placeId });
+    getReview({ authToken, setReviews, placeId, apiFlag: 'placeId' });
     setRateValue(3);
     setImageUrl('');
     setReviewText('');
