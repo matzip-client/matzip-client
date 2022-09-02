@@ -9,7 +9,14 @@ import { Link } from 'react-router-dom';
 // eslint-disable-next-line no-unused-vars
 import CommentComponent from './CommentComponent/CommentComponent';
 
-function ReviewComponent({ reviewObj, commentObj, setReviews, authToken, showingComment }) {
+function ReviewComponent({
+  reviewObj,
+  commentObj,
+  setReviews,
+  authToken,
+  showingComment,
+  apiFlag,
+}) {
   const [liked, setLiked] = useState(reviewObj.is_hearted);
   const [likeCnt, setLikeCnt] = useState(reviewObj.number_of_hearts);
 
@@ -60,7 +67,7 @@ function ReviewComponent({ reviewObj, commentObj, setReviews, authToken, showing
             },
           }
         );
-        getReview({ authToken, setReviews, placeId: reviewObj.location, apiFlag: 'placeId' }); // 추후 수정 필요
+        getReview({ authToken, setReviews, placeId: reviewObj.location, apiFlag: apiFlag });
       } catch (error) {
         console.log(error);
       }

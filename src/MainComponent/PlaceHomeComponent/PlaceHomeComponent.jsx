@@ -52,6 +52,7 @@ function PlaceHome({ authToken }) {
               commentObj={review.comments}
               setReviews={setReviews}
               authToken={authToken}
+              apiFlag="placeId"
             />
           ))}
       </div>

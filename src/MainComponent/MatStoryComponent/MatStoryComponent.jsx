@@ -36,6 +36,7 @@ function MatStoryComponent({ authToken, userInfo }) {
               commentObj={review.comments}
               setReviews={setReviews}
               authToken={authToken}
+              apiFlag="hot"
             />
           ))}
       </div>
