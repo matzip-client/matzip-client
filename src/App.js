@@ -8,6 +8,7 @@ import AdminComponent from './AdminComponent/AdminComponent.jsx';
 import PlaceHomeComponent from './MainComponent/PlaceHomeComponent/PlaceHomeComponent.jsx';
 import ProfileEditComponent from './ProfileEditComponent/ProfileEditComponent.jsx';
 import OtherUserComponent from './OtherUserComponent/OtherUserComponent.jsx';
+import ReviewDetailComponent from './ReviewDetailComponent/ReviewDetailComponent';
 
 function App() {
   const [authToken, setAuthToken] = useState(null);
@@ -59,6 +60,10 @@ function App() {
           />
           <Route path="/edit/:userName" element={<ProfileEditComponent authToken={authToken} />} />
           <Route path="/profile/:userName" element={<OtherUserComponent authToken={authToken} />} />
+          <Route
+            path="/review/:reviewId"
+            element={<ReviewDetailComponent authToken={authToken} />}
+          />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

@@ -28,7 +28,7 @@ function CommentComponent({ authToken, setReviews, reviewId, commentObj, placeId
           },
         }
       );
-      getReview({ authToken, setReviews, placeId });
+      getReview({ authToken, setReviews, placeId, apiFlag: 'reviewId', reviewId });
     } catch (error) {
       console.log(error);
     }
@@ -41,7 +41,7 @@ function CommentComponent({ authToken, setReviews, reviewId, commentObj, placeId
   };
 
   useEffect(() => {
-    getReview({ authToken, setReviews, placeId });
+    getReview({ authToken, setReviews, placeId, apiFlag: 'reviewId', reviewId });
   }, []);
 
   return (
@@ -67,6 +67,7 @@ function CommentComponent({ authToken, setReviews, reviewId, commentObj, placeId
                 setReviews={setReviews}
                 commentObj={comment}
                 placeId={placeId}
+                reviewId={reviewId}
               />
             ))}
         </div>

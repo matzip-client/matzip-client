@@ -44,7 +44,7 @@ function PlaceHome({ authToken, setAuthToken, userInfo, setUserInfo }) {
           navigate('/login');
         }
       }
-      getReview({ authToken, setReviews, placeId });
+      getReview({ authToken, setReviews, placeId, apiFlag: 'placeId' });
     };
     userInfoInit();
   }, [authToken]);

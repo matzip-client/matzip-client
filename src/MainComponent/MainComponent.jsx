@@ -49,7 +49,7 @@ function MainComponent({ authToken, setAuthToken, userInfo, setUserInfo }) {
         <div>
           <HeaderComponent setPageNum={setPageNum} />
           {pageNum == 0 && <MatMapComponent userInfo={userInfo} />}
-          {pageNum == 1 && <MatStoryComponent userInfo={userInfo} />}
+          {pageNum == 1 && <MatStoryComponent authToken={authToken} userInfo={userInfo} />}
           {pageNum == 2 && <UserSearchComponent authToken={authToken} userInfo={userInfo} />}
           {pageNum == 3 && (
             <UserProfileComponent
