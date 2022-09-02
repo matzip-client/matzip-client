@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import getReview from '../../getReview';
 import CommentDetailStyles from './CommentDetailComponent.module.css';
 
-function CommentDetailComponent({ authToken, setReviews, commentObj, placeId }) {
+function CommentDetailComponent({ authToken, setReviews, commentObj, placeId, reviewId }) {
   const onDeleteClick = async () => {
-    if (window.confirm('정말로 삭제하시겠습니까?')) {
+    if (confirm('정말로 삭제하시겠습니까?')) {
       try {
         // eslint-disable-next-line no-unused-vars
         const response = await axios.delete(
@@ -18,7 +18,7 @@ function CommentDetailComponent({ authToken, setReviews, commentObj, placeId }) 
             },
           }
         );
-        getReview({ authToken, setReviews, placeId });
+        getReview({ authToken, setReviews, placeId, apiFlag: 'reviewId', reviewId: reviewId });
       } catch (error) {
         console.log(error);
       }

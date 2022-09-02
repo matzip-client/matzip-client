@@ -19,7 +19,7 @@ function PlaceHome({ authToken }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getReview({ authToken, setReviews, placeId });
+    getReview({ authToken, setReviews, placeId, apiFlag: 'placeId' });
   }, []);
 
   return (

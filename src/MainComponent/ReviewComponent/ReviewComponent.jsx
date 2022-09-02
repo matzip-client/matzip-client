@@ -6,13 +6,13 @@ import axios from 'axios';
 import { useState } from 'react';
 import getReview from './getReview';
 import { Link } from 'react-router-dom';
+// eslint-disable-next-line no-unused-vars
 import CommentComponent from './CommentComponent/CommentComponent';
-function ReviewComponent({ reviewObj, commentObj, setReviews, authToken }) {
+
+function ReviewComponent({ reviewObj, commentObj, setReviews, authToken, showingComment }) {
   const [liked, setLiked] = useState(reviewObj.is_hearted);
   const [likeCnt, setLikeCnt] = useState(reviewObj.number_of_hearts);
 
-  const [showingComment, setShowingComment] = useState(false);
-  const toggleShowingComment = () => setShowingComment((prev) => !prev);
   const putLike = async () => {
     try {
       const response = await axios.put(
@@ -60,7 +60,7 @@ function ReviewComponent({ reviewObj, commentObj, setReviews, authToken }) {
             },
           }
         );
-        getReview({ authToken, setReviews, placeId: reviewObj.location });
+        getReview({ authToken, setReviews, placeId: reviewObj.location, apiFlag: 'placeId' }); // 추후 수정 필요
       } catch (error) {
         console.log(error);
       }
@@ -109,7 +109,15 @@ function ReviewComponent({ reviewObj, commentObj, setReviews, authToken }) {
           <FontAwesomeIcon icon={liked ? faHeart : faHeartRegular} />
         </button>
         &nbsp;
-        <button onClick={toggleShowingComment}>댓글 보기</button>
+        <Link
+          to={`/review/${reviewObj.id}`}
+          state={{
+            authToken: authToken,
+            reviewObj: reviewObj,
+          }}
+        >
+          댓글
+        </Link>
         {reviewObj.is_deletable ? (
           <button className={ReviewStyles.delete} onClick={onDeleteClick}>
             Delete&nbsp;
