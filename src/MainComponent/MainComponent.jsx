@@ -6,48 +6,11 @@ import MatMapComponent from './MatMapComponent/MatMapComponent.jsx';
 import MatStoryComponent from './MatStoryComponent/MatStoryComponent.jsx';
 import UserSearchComponent from './UserSearchComponent/UserSearchComponent.jsx';
 import UserProfileComponent from './UserProfileComponent/UserProfileComponent.jsx';
-import axios from 'axios';
+import { getUserInfo, isValidateToken } from './getUserbyToken.jsx';
 
-function MainComponent({ authToken, setAuthToken }) {
-  const [userInfo, setUserInfo] = useState({
-    userName: '',
-    userProfileImage: '',
-    userStatusMessage: '',
-    userLevel: 0,
-    userFollower: 0,
-    userFollowings: 0,
-  });
+function MainComponent({ authToken, setAuthToken, userInfo, setUserInfo }) {
   const [pageNum, setPageNum] = useState(0);
   const navigate = useNavigate();
-
-  // eslint-disable-next-line no-unused-vars
-  const isValidateToken = async (authToken) => {
-    /**
-     * autoToken이 Validate Token인지 검사하는 API가 필요합니다.
-     */
-    if (authToken != null) return true;
-  };
-
-  const getUserInfo = async () => {
-    try {
-      let response = await axios.get(`https://${process.env.REACT_APP_SERVER_HOST}/api/v1/me`, {
-        headers: {
-          Authorization: authToken,
-        },
-      });
-      setUserInfo({
-        ...userInfo,
-        userName: response.data.username,
-        userProfileImage: response.data.profile_image_url,
-        userStatusMessage: response.data.profile_string,
-        userLevel: response.data.matzip_level,
-        userFollowers: response.data.number_of_followers,
-        userFollowings: response.data.number_of_followings,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
     const authTokenInit = async () => {
@@ -64,7 +27,7 @@ function MainComponent({ authToken, setAuthToken }) {
   useEffect(() => {
     const userInfoInit = async () => {
       if (await isValidateToken(authToken)) {
-        await getUserInfo();
+        await getUserInfo({ authToken, userInfo, setUserInfo });
       } else {
         /**
          * authToken != null : 유효하지 않은 토큰 (만료, 조작 등)

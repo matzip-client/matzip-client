@@ -2,11 +2,12 @@ import { faLocationDot, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getUserInfo, isValidateToken } from '../getUserbyToken';
 import getReview from '../ReviewComponent/getReview';
 import ReviewComponent from '../ReviewComponent/ReviewComponent';
 import ReviewFormComponent from '../ReviewFormComponent/ReviewFormComponent';
 
-function PlaceHome({ authToken }) {
+function PlaceHome({ authToken, setAuthToken, userInfo, setUserInfo }) {
   const placeInfo = useLocation().state;
   const [writing, setWriting] = useState(false);
   const placeId = placeInfo.data.id;
@@ -19,8 +20,34 @@ function PlaceHome({ authToken }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getReview({ authToken, setReviews, placeId });
+    const authTokenInit = async () => {
+      const tmpToken = sessionStorage.getItem('authToken');
+      if (tmpToken != null) {
+        setAuthToken(tmpToken);
+      } else {
+        navigate('/login');
+      }
+    };
+    authTokenInit();
   }, []);
+
+  useEffect(() => {
+    const userInfoInit = async () => {
+      if (await isValidateToken(authToken)) {
+        await getUserInfo({ authToken, userInfo, setUserInfo });
+      } else {
+        /**
+         * authToken != null : 유효하지 않은 토큰 (만료, 조작 등)
+         * authToken == null : 아직 값을 읽지 못한 상태
+         */
+        if (authToken != null) {
+          navigate('/login');
+        }
+      }
+      getReview({ authToken, setReviews, placeId });
+    };
+    userInfoInit();
+  }, [authToken]);
 
   return (
     <>
