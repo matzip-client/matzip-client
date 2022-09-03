@@ -27,6 +27,7 @@ function ReviewDetailComponent() {
           setReviews={setReviews}
           authToken={state.authToken}
           showingComment={true}
+          apiFlag="reviewId"
         />
       )}
     </div>
